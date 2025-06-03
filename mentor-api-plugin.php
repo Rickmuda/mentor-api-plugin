@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mentor Plugin
 Description: Fetch and display categories and courses from a mentor application Software for educators
-Version: 0.3
+Version: 0.4
 Author: Mark Vergunst
 */
 
@@ -23,6 +23,7 @@ class WPMentorCoursesCategories {
         add_action('admin_init', array($this, 'setup_sections'));
         add_action('admin_init', array($this, 'setup_fields'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        add_action('wp_head', array($this, 'inject_theme_css'));
 
 
         $this->api_url = get_option('mentor_courses_api_url');
@@ -115,6 +116,30 @@ class WPMentorCoursesCategories {
     public function enqueue_styles() {
         wp_enqueue_style('wp_mentor_courses_categories_styles', plugin_dir_url(__FILE__) . 'output.css');
     }
+
+// Onderin je class WPMentorCoursesCategories (vlak voor sluitende accolade):
+
+public function inject_theme_css() {
+    // Haal stylinggegevens van jouw frontend API op
+    $theme_url = $this->api_url . '/api/client_api/frontendtheme/';
+    $response = wp_remote_get($theme_url);
+    if (is_wp_error($response)) return;
+    $body = wp_remote_retrieve_body($response);
+    if (empty($body)) return;
+
+    $data = json_decode($body, true);
+    if (!is_array($data) || !isset($data['css'])) return;
+
+    $css = $data['css'];
+    echo '<style id="mentor-theme-css">
+      .tw {
+        --color-primary: ' . esc_attr($css['primary-color'] ?? '#417AB3') . ';
+        --color-secondary: ' . esc_attr($css['secondary-color'] ?? '#F6A623') . ';
+        --color-secondary-hover: ' . esc_attr($css['secondary-color-hover'] ?? 'rgba(246,166,35,0.8)') . ';
+        --color-body-text: ' . esc_attr($css['body-text-color'] ?? '#1D4065') . ';
+      }
+      </style>';
+}
 }
 
 new WPMentorCoursesCategories();

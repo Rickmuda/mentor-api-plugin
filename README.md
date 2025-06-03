@@ -57,4 +57,4 @@ Als je aanpassingen wilt maken of de stijl van de plugin wilt wijzigen, kun je g
 1. Zorg ervoor dat je Node.js geïnstalleerd hebt.
 2. Gebruik de volgende Tailwind command-line om de stijlen in de gaten te houden en te compileren:
    ```bash
-   npx tailwindcss -i ./styles.css -o
+   npx tailwindcss -i ./styles.css -o ./output.css

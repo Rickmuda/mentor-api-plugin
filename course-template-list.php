@@ -3,7 +3,7 @@
 defined('ABSPATH') or die('No script kiddies please!');
 ?>
 
-<div class="container mx-auto px-4">
+<div class="tw container mx-auto px-4">
     <div class="grid grid-cols-1 gap-4">
         <?php foreach ($context['courses']['results'] as $course): ?>
             <div class="flex flex-col md:flex-row rounded overflow-hidden shadow-lg m-4">
