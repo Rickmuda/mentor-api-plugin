@@ -19,7 +19,7 @@ class WPMentorCoursesCategories {
     public function __construct() {
         add_shortcode('mentor_courses', array($this, 'display_courses'));
         add_shortcode('mentor_categories', array($this, 'display_categories'));
-        add_shortcode('display_trainingtracks', array($this, 'display_trainingtracks'));
+        add_shortcode('display_coursegroup_wc', array($this, 'display_trainingtracks'));
         add_action('admin_menu', array($this, 'create_settings_page'));
         add_action('admin_init', array($this, 'setup_sections'));
         add_action('admin_init', array($this, 'setup_fields'));
