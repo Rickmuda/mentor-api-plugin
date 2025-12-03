@@ -23,7 +23,7 @@ defined('ABSPATH') or die('No script kiddies please!');
                                 }
                                 ?>
                             </p>
-                            <a href="<?php echo esc_url($api_url); ?>/?subject=<?php echo $category['id'] ?>#subject_title"
+                            <a href="<?php echo esc_url($api_url); ?>/theme/<?php echo $category['id'] ?>/"
                                class="inline-block text-white font-bold py-2 px-4 rounded mt-auto transition-colors duration-200"
                                style="background-color: var(--color-primary);" 
                                onmouseover="this.style.backgroundColor='var(--color-secondary-hover)'" 
