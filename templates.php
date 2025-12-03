@@ -19,4 +19,10 @@ function display_category_template($categories, $api_url) {
     include plugin_dir_path(__FILE__) . 'category-template.php';
     return ob_get_clean();
 }
+
+function display_trainingtracks_template($tracks, $api_url) {
+    ob_start();
+    include plugin_dir_path(__FILE__) . 'trainingtrack-template.php';
+    return ob_get_clean();
+}
 ?>
