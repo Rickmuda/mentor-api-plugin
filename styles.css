@@ -1,0 +1,41 @@
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.course-card, .category-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.course-card img, .category-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.course-card h3, .category-card h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.course-card p, .category-card p {
+    margin-bottom: 10px;
+}
+
+.course-card .button, .category-card .button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #0073aa;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.course-card .button:hover, .category-card .button:hover {
+    background-color: #005177;
+}
