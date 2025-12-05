@@ -2,7 +2,7 @@
 /*
 Plugin Name: Mentor Plugin
 Description: Fetch and display categories and courses from a mentor application Software for educators
-Version: 0.4
+Version: 1.1
 Author: Mark Vergunst
 */
 
@@ -13,10 +13,12 @@ if (file_exists(plugin_dir_path(__FILE__) . 'templates.php')) {
     require_once plugin_dir_path(__FILE__) . 'templates.php';
 }
 
-class WPMentorCoursesCategories {
+class WPMentorCoursesCategories
+{
     private $api_url;
 
-    public function __construct() {
+    public function __construct()
+    {
         add_shortcode('mentor_courses', array($this, 'display_courses'));
         add_shortcode('mentor_categories', array($this, 'display_categories'));
         add_shortcode('display_coursegroup_wc', array($this, 'display_trainingtracks'));
@@ -29,7 +31,8 @@ class WPMentorCoursesCategories {
         $this->api_url = get_option('mentor_courses_api_url');
     }
 
-    private function fetch_data($endpoint) {
+    private function fetch_data($endpoint)
+    {
         $response = wp_remote_get($this->api_url . $endpoint);
 
         if (is_wp_error($response)) {
@@ -42,7 +45,8 @@ class WPMentorCoursesCategories {
         return $data;
     }
 
-    public function display_courses() {
+    public function display_courses()
+    {
         $courses = $this->fetch_data('/api/modules_api/catalog/');
         if (empty($courses)) {
             return '<p>No courses found.</p>';
@@ -52,41 +56,45 @@ class WPMentorCoursesCategories {
         return $output;
     }
 
-    public function display_categories() {
+    public function display_categories()
+    {
         $categories = $this->fetch_data('/api/modules_api/subjects/');
         $output = display_category_template($categories, $this->api_url);
         return $output;
     }
 
-    public function create_settings_page() {
+    public function create_settings_page()
+    {
         add_options_page(
-            'Mentor Courses and Categories Settings',
-            'Mentor Courses and Categories',
-            'manage_options',
-            'wp_mentor_courses_categories',
-            array($this, 'settings_page_content')
+                'Mentor Courses and Categories Settings',
+                'Mentor Courses and Categories',
+                'manage_options',
+                'wp_mentor_courses_categories',
+                array($this, 'settings_page_content')
         );
     }
 
-    public function settings_page_content() { ?>
+    public function settings_page_content()
+    { ?>
         <div class="wrap">
             <h1>Mentor Courses and Categories Settings</h1>
             <form method="post" action="options.php">
                 <?php
-                    settings_fields('wp_mentor_courses_categories');
-                    do_settings_sections('wp_mentor_courses_categories');
-                    submit_button();
+                settings_fields('wp_mentor_courses_categories');
+                do_settings_sections('wp_mentor_courses_categories');
+                submit_button();
                 ?>
             </form>
         </div> <?php
     }
 
-    public function setup_sections() {
+    public function setup_sections()
+    {
         add_settings_section(
-            'wp_mentor_courses_categories_section',
-            'API Settings',
-            null,
-            'wp_mentor_courses_categories'
+                'wp_mentor_courses_categories_section',
+                'API Settings',
+                null,
+                'wp_mentor_courses_categories'
         );
     }
 
@@ -107,7 +115,8 @@ class WPMentorCoursesCategories {
 //        register_setting('wp_mentor_courses_categories', 'mentor_courses_api_url');
 //    }
 
-    public function section_callback() {
+    public function section_callback()
+    {
         ?>
         <p>
             Hier kun je shortcodes gebruiken om trainingen uit Mentor te tonen.
@@ -122,15 +131,16 @@ class WPMentorCoursesCategories {
         <?php
     }
 
-    public function setup_fields() {
+    public function setup_fields()
+    {
 
         // Sectie met uitleg over shortcodes
-        add_settings_section(
-                'wp_mentor_courses_categories_section',
-                __('Shortcodes voor Mentor trainingen', 'textdomain'),
-                array($this, 'section_callback'), // callback voor uitleg
-                'wp_mentor_courses_categories'
-        );
+//        add_settings_section(
+//                'wp_mentor_courses_categories_section',
+//                __('Shortcodes voor Mentor trainingen', 'textdomain'),
+//                array($this, 'section_callback'), // callback voor uitleg
+//                'wp_mentor_courses_categories'
+//        );
 
         add_settings_field(
                 'mentor_courses_api_url',
@@ -145,26 +155,57 @@ class WPMentorCoursesCategories {
                 )
         );
 
+        add_settings_field(
+                'mentor_theme_enabled',
+                __('Gebruik Mentor thema', 'textdomain'),
+                array($this, 'checkbox_callback'),
+                'wp_mentor_courses_categories',
+                'wp_mentor_courses_categories_section',
+                array(
+                        'label_for' => 'mentor_theme_enabled',
+                        'option_name' => 'mentor_theme_enabled'
+                )
+        );
+
         register_setting('wp_mentor_courses_categories', 'mentor_courses_api_url');
+        register_setting('wp_mentor_courses_categories', 'mentor_theme_enabled');
     }
 
+    public function checkbox_callback($arguments)
+    {
+        $option_name = $arguments['option_name'];
+        $checked = checked(1, get_option($option_name), false);
+        echo '<input type="checkbox" 
+             name="' . esc_attr($option_name) . '" 
+             id="' . esc_attr($option_name) . '" 
+             value="1" ' . $checked . ' />';
+    }
 
-    public function field_callback($arguments) {
+    public function field_callback($arguments)
+    {
         $option_name = $arguments['option_name'];
         $value = get_option($option_name);
         echo '<input name="' . esc_attr($option_name) . '" id="' . esc_attr($option_name) . '" type="' . esc_attr($arguments['type']) . '" value="' . esc_attr($value) . '" />';
     }
 
-    public function enqueue_styles() {
-        wp_enqueue_style('wp_mentor_courses_categories_styles', plugin_dir_url(__FILE__) . 'output.css');
+    public function enqueue_styles()
+    {
+//        wp_enqueue_style('wp_mentor_courses_categories_styles', plugin_dir_url(__FILE__) . 'output.css');
+        wp_enqueue_style(
+                'wp_mentor_courses_categories_styles',
+                plugin_dir_url(__FILE__) . 'mentor-plugin-1.1.css',
+                [],
+                '0.9'
+        );
     }
 
-    private function prepare_font_assets($fonts_payload) {
+    private function prepare_font_assets($fonts_payload)
+    {
         $result = [
-            'links' => [],
-            'css_chunks' => [],
-            'body_font' => '',
-            'heading_font' => '',
+                'links' => [],
+                'css_chunks' => [],
+                'body_font' => '',
+                'heading_font' => '',
         ];
 
         if (empty($fonts_payload)) {
@@ -177,7 +218,7 @@ class WPMentorCoursesCategories {
         }
 
         if (is_object($fonts_payload)) {
-            $fonts_payload = (array) $fonts_payload;
+            $fonts_payload = (array)$fonts_payload;
         }
 
         if (!is_array($fonts_payload)) {
@@ -194,13 +235,14 @@ class WPMentorCoursesCategories {
         return $result;
     }
 
-    private function ingest_font_entry($entry, array &$result, $key = '') {
+    private function ingest_font_entry($entry, array &$result, $key = '')
+    {
         if (is_null($entry)) {
             return;
         }
 
         if (is_object($entry)) {
-            $entry = (array) $entry;
+            $entry = (array)$entry;
         }
 
         if (is_string($entry)) {
@@ -230,7 +272,7 @@ class WPMentorCoursesCategories {
                     $this->ingest_font_entry($snippet, $result, $key);
                 }
             } else {
-                $result['css_chunks'][] = (string) $entry['css'];
+                $result['css_chunks'][] = (string)$entry['css'];
             }
         }
 
@@ -245,7 +287,8 @@ class WPMentorCoursesCategories {
         }
     }
 
-    private function assign_font_source_from_string($font_string, array &$result) {
+    private function assign_font_source_from_string($font_string, array &$result)
+    {
         if (!is_string($font_string)) {
             return;
         }
@@ -262,7 +305,8 @@ class WPMentorCoursesCategories {
         }
     }
 
-    private function assign_font_family(array &$result, $family, $key = '', array $entry = []) {
+    private function assign_font_family(array &$result, $family, $key = '', array $entry = [])
+    {
         $family = sanitize_text_field($family);
         if ($family === '') {
             return;
@@ -305,7 +349,8 @@ class WPMentorCoursesCategories {
         }
     }
 
-    private function format_css_vars(array $vars) {
+    private function format_css_vars(array $vars)
+    {
         if (empty($vars)) {
             return '';
         }
@@ -320,7 +365,8 @@ class WPMentorCoursesCategories {
 
     // Onderin je class WPMentorCoursesCategories (vlak voor sluitende accolade):
 
-    private function build_font_face($font) {
+    private function build_font_face($font)
+    {
         $family = sanitize_text_field($font['fontFamily'] ?? '');
         $srcs = [];
 
@@ -343,8 +389,13 @@ class WPMentorCoursesCategories {
         }";
     }
 
-    public function inject_theme_css() {
+    public function inject_theme_css()
+    {
         if (empty($this->api_url)) {
+            return;
+        }
+
+        if (!get_option('mentor_theme_enabled')) {
             return;
         }
 
@@ -366,18 +417,18 @@ class WPMentorCoursesCategories {
 
         // --- kleuren ---
         $color_defaults = [
-            'primary-color' => '#417AB3',
-            'secondary-color' => '#F6A623',
-            'secondary-color-hover' => 'rgba(246,166,35,0.8)',
-            'body-text-color' => '#1D4065',
+                'primary-color' => '#417AB3',
+                'secondary-color' => '#F6A623',
+                'secondary-color-hover' => 'rgba(246,166,35,0.8)',
+                'body-text-color' => '#1D4065',
         ];
         $colors = array_merge($color_defaults, $data['css'] ?? []);
 
         $root_vars = [
-            '--color-primary' => sanitize_text_field($colors['primary-color']),
-            '--color-secondary' => sanitize_text_field($colors['secondary-color']),
-            '--color-secondary-hover' => sanitize_text_field($colors['secondary-color-hover']),
-            '--color-body-text' => sanitize_text_field($colors['body-text-color']),
+                '--color-primary' => sanitize_text_field($colors['primary-color']),
+                '--color-secondary' => sanitize_text_field($colors['secondary-color']),
+                '--color-secondary-hover' => sanitize_text_field($colors['secondary-color-hover']),
+                '--color-body-text' => sanitize_text_field($colors['body-text-color']),
         ];
 
         $style = ":root, .tw {\n";
@@ -419,37 +470,34 @@ class WPMentorCoursesCategories {
 
         echo "<style id='mentor-theme-css'>\n{$style}\n</style>";
     }
-public function display_trainingtracks($atts = []) {
-    // shortcode-attributen
-    $atts = shortcode_atts([
-        'id' => '',
-    ], $atts, 'display_trainingtracks');
 
-    // basis endpoint
-    $endpoint = '/api/client_api/availabletrainingtracks/';
-    if (!empty($atts['id'])) {
-        $endpoint .= '?module_id=' . urlencode($atts['id']);
+    public function display_trainingtracks($atts = [])
+    {
+        // shortcode-attributen
+        $atts = shortcode_atts([
+                'id' => '',
+        ], $atts, 'display_trainingtracks');
+
+        // basis endpoint
+        $endpoint = '/api/client_api/availabletrainingtracks/';
+        if (!empty($atts['id'])) {
+            $endpoint .= '?module_id=' . urlencode($atts['id']);
+        }
+
+        // data ophalen
+        $tracks = $this->fetch_data($endpoint);
+
+        return display_trainingtracks_template($tracks, $this->api_url);
+
+        // fallback (als template niet bestaat)
+        ob_start();
+        foreach ($track_items as $track) {
+            echo '<div>' . esc_html($track['title'] ?? 'Zonder titel') . '</div>';
+        }
+        return ob_get_clean();
     }
 
-    // data ophalen
-    $tracks = $this->fetch_data($endpoint);
 
-    // als er geen geldige data is
-    if (empty($tracks)) {
-        return '<p>Geen trainingen gevonden.</p>';
-    }
-
-    return display_trainingtracks_template($tracks, $this->api_url);
-
-    // fallback (als template niet bestaat)
-    ob_start();
-    foreach ($track_items as $track) {
-        echo '<div>' . esc_html($track['title'] ?? 'Zonder titel') . '</div>';
-    }
-    return ob_get_clean();
-}
-
-    
 }
 
 new WPMentorCoursesCategories();

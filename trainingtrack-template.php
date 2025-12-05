@@ -3,58 +3,57 @@ defined('ABSPATH') or die('No script kiddies please!');
 $items = $tracks['results'] ?? $tracks;
 //echo "<pre>"; print_r($items); echo "</pre>";
 ?>
-<!--<style>-->
-<!--    @import url("https://p.typekit.net/p.css?s=1&k=vpf7cpc&ht=tk&f=47585.47587.47588&a=87323651&app=typekit&e=css");-->
-<!--</style>-->
-<link rel="stylesheet" id="finalsix-css" href="https://use.typekit.net/vpf7cpc.css?ver=6.8.3" media="all">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Calibri:400,700,400italic,700italic" rel="stylesheet">
+<!--<link rel="stylesheet" id="finalsix-css" href="https://use.typekit.net/vpf7cpc.css?ver=6.8.3" media="all">-->
+<!--<link rel="preconnect" href="https://fonts.googleapis.com">-->
+<!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
+<!--<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">-->
+<!--<link href="https://fonts.googleapis.com/css?family=Calibri:400,700,400italic,700italic" rel="stylesheet">-->
 <style>
-    .pt-calibri-regular {
-        font-family: "Calibri", sans-serif!important;
-        font-weight: 400!important;
-        font-style: normal!important;
-    }
-    .pt-sans-regular {
-        font-family: "PT Sans", sans-serif!important;
-        font-weight: 400!important;
-        font-style: normal!important;
-    }
-    .pt-sans-bold {
-        font-family: "PT Sans", sans-serif!important;
-        font-weight: 600!important;
-        font-style: normal!important;
-        font-size: clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.227), 1.125rem)!important;
-    }
-    .pt-sans-bold-normal {
-        font-family: "PT Sans", sans-serif!important;
-        font-weight: 600!important;
-        font-style: normal!important;
-        /*font-size: var(--font-medium);*/
-    }
-    .pt-sans-regular-italic {
-        font-family: "PT Sans", sans-serif;
-        font-weight: 400;
-        font-style: italic;
+    .tailwind-scope .pt-calibri-regular {
+        font-family: "Calibri", sans-serif !important;
+        font-weight: 400 !important;
+        font-style: normal !important;
     }
 
-    .pt-sans-bold-italic {
-        font-family: "PT Sans", sans-serif;
-        font-weight: 700;
-        font-style: italic;
+    .tailwind-scope .pt-sans-regular {
+        font-family: "PT Sans", sans-serif !important;
+        font-weight: 400 !important;
+        font-style: normal !important;
     }
 
-    /* WECREATE STYLES Text link */
-    .is-text-link:not(.acf-block-preview) {
-        /* color: var(--wp--preset--color--custom-primary); */
+    .tailwind-scope .pt-sans-bold {
+        font-family: "PT Sans", sans-serif !important;
+        font-weight: 600 !important;
+        font-style: normal !important;
+        font-size: clamp(1rem, 1rem + ((1vw - 0.2rem) * 0.227), 1.125rem) !important;
+    }
+
+    .tailwind-scope .pt-sans-bold-normal {
+        font-family: "PT Sans", sans-serif !important;
+        font-weight: 600 !important;
+        font-style: normal !important;
+    }
+
+    .tailwind-scope .pt-sans-regular-italic {
+        font-family: "PT Sans", sans-serif !important;
+        font-weight: 400 !important;
+        font-style: italic !important;
+    }
+
+    .tailwind-scope .pt-sans-bold-italic {
+        font-family: "PT Sans", sans-serif !important;
+        font-weight: 700 !important;
+        font-style: italic !important;
+    }
+
+    /* TEXT LINK */
+    .tailwind-scope .is-text-link {
         text-decoration: none;
         font-style: normal;
         font-weight: 600;
     }
 
-    .is-text-link:not(.acf-block-preview)::after {
+    .tailwind-scope .is-text-link::after {
         content: "\203A";
         font-size: 1.5em;
         line-height: 0;
@@ -64,10 +63,10 @@ $items = $tracks['results'] ?? $tracks;
         vertical-align: -2px;
     }
 
-    .is-text-link:not(.acf-block-preview):hover::after {
+    .tailwind-scope .is-text-link:hover::after {
         transform: translate(0.25em, 0);
     }
-#211A50
+
 </style>
 <div class="tailwind-scope tw container mx-auto px-4 py-10">
 
@@ -148,7 +147,7 @@ $items = $tracks['results'] ?? $tracks;
                     </div>
 
                     <!-- Bekijk trainingsdagen -->
-                    <button class="open-modal-btn w-full text-[#C83461] hover:text-[#9f264b] pt-sans-bold is-text-link rounded-xl py-3 mb-6 flex items-center justify-center transition"
+                    <button class="open-modal-btn w-full text-[#C83461] hover:text-[#9f264b] pt-sans-bold is-text-link rounded-xl py-3 mb-6 flex items-center justify-center transition cursor-pointer"
                             data-modal-id="<?php echo $modal_id; ?>">
 
 <!--                        <svg xmlns="http://www.w3.org/2000/svg"-->
@@ -193,7 +192,7 @@ $items = $tracks['results'] ?? $tracks;
 
                         <h3 class="text-xxl tk-finalsix font-bold mb-4 text-[#211a50]">Trainingsdagen</h3>
 
-                        <ul class="space-y-3 text-[#211A50] text-sm pt-sans-regular">
+                        <ul class="space-y-3 text-[#211A50] text-sm pt-sans-regular list-none pl-0">
                             <?php foreach ($track['traininglessons'] as $lesson): ?>
                                 <li class="p-4 bg-[#E0DFEC] rounded-xl">
 
@@ -243,7 +242,7 @@ $items = $tracks['results'] ?? $tracks;
                         -->
                         <button
                                 onclick="document.getElementById('<?php echo $modal_id; ?>').classList.add('hidden')"
-                                class="mt-6 pt-sans-bold-normal w-full py-3 text-white text-center rounded-full is-text-link bg-gradient-to-br bg-[linear-gradient(90deg,rgb(239,126,47)_0%,rgb(200,52,97)_100%)] transition text-base">
+                                class="mt-6 pt-sans-bold-normal w-full py-3 text-white text-center rounded-full is-text-link cursor-pointer bg-[linear-gradient(90deg,rgb(239,126,47)_0%,rgb(200,52,97)_100%)] transition text-base">
                             Sluiten
                         </button>
 
@@ -253,9 +252,6 @@ $items = $tracks['results'] ?? $tracks;
             <?php endforeach; ?>
 
         </div>
-
-    <?php else: ?>
-        <p class="text-center text-gray-600">Geen trainingen gevonden.</p>
     <?php endif; ?>
 
 </div>
