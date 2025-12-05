@@ -60,11 +60,11 @@ class WPMentorCoursesCategories {
 
     public function create_settings_page() {
         add_options_page(
-                'Mentor Courses and Categories Settings',
-                'Mentor Courses and Categories',
-                'manage_options',
-                'wp_mentor_courses_categories',
-                array($this, 'settings_page_content')
+            'Mentor Courses and Categories Settings',
+            'Mentor Courses and Categories',
+            'manage_options',
+            'wp_mentor_courses_categories',
+            array($this, 'settings_page_content')
         );
     }
 
@@ -73,9 +73,9 @@ class WPMentorCoursesCategories {
             <h1>Mentor Courses and Categories Settings</h1>
             <form method="post" action="options.php">
                 <?php
-                settings_fields('wp_mentor_courses_categories');
-                do_settings_sections('wp_mentor_courses_categories');
-                submit_button();
+                    settings_fields('wp_mentor_courses_categories');
+                    do_settings_sections('wp_mentor_courses_categories');
+                    submit_button();
                 ?>
             </form>
         </div> <?php
@@ -83,10 +83,10 @@ class WPMentorCoursesCategories {
 
     public function setup_sections() {
         add_settings_section(
-                'wp_mentor_courses_categories_section',
-                'API Settings',
-                null,
-                'wp_mentor_courses_categories'
+            'wp_mentor_courses_categories_section',
+            'API Settings',
+            null,
+            'wp_mentor_courses_categories'
         );
     }
 
@@ -161,10 +161,10 @@ class WPMentorCoursesCategories {
 
     private function prepare_font_assets($fonts_payload) {
         $result = [
-                'links' => [],
-                'css_chunks' => [],
-                'body_font' => '',
-                'heading_font' => '',
+            'links' => [],
+            'css_chunks' => [],
+            'body_font' => '',
+            'heading_font' => '',
         ];
 
         if (empty($fonts_payload)) {
@@ -366,18 +366,18 @@ class WPMentorCoursesCategories {
 
         // --- kleuren ---
         $color_defaults = [
-                'primary-color' => '#417AB3',
-                'secondary-color' => '#F6A623',
-                'secondary-color-hover' => 'rgba(246,166,35,0.8)',
-                'body-text-color' => '#1D4065',
+            'primary-color' => '#417AB3',
+            'secondary-color' => '#F6A623',
+            'secondary-color-hover' => 'rgba(246,166,35,0.8)',
+            'body-text-color' => '#1D4065',
         ];
         $colors = array_merge($color_defaults, $data['css'] ?? []);
 
         $root_vars = [
-                '--color-primary' => sanitize_text_field($colors['primary-color']),
-                '--color-secondary' => sanitize_text_field($colors['secondary-color']),
-                '--color-secondary-hover' => sanitize_text_field($colors['secondary-color-hover']),
-                '--color-body-text' => sanitize_text_field($colors['body-text-color']),
+            '--color-primary' => sanitize_text_field($colors['primary-color']),
+            '--color-secondary' => sanitize_text_field($colors['secondary-color']),
+            '--color-secondary-hover' => sanitize_text_field($colors['secondary-color-hover']),
+            '--color-body-text' => sanitize_text_field($colors['body-text-color']),
         ];
 
         $style = ":root, .tw {\n";
@@ -419,37 +419,37 @@ class WPMentorCoursesCategories {
 
         echo "<style id='mentor-theme-css'>\n{$style}\n</style>";
     }
-    public function display_trainingtracks($atts = []) {
-        // shortcode-attributen
-        $atts = shortcode_atts([
-                'id' => '',
-        ], $atts, 'display_trainingtracks');
+public function display_trainingtracks($atts = []) {
+    // shortcode-attributen
+    $atts = shortcode_atts([
+        'id' => '',
+    ], $atts, 'display_trainingtracks');
 
-        // basis endpoint
-        $endpoint = '/api/client_api/availabletrainingtracks/';
-        if (!empty($atts['id'])) {
-            $endpoint .= '?module_id=' . urlencode($atts['id']);
-        }
-
-        // data ophalen
-        $tracks = $this->fetch_data($endpoint);
-
-        // als er geen geldige data is
-        if (empty($tracks)) {
-            return '';
-        }
-
-        return display_trainingtracks_template($tracks, $this->api_url);
-
-        // fallback (als template niet bestaat)
-        ob_start();
-        foreach ($track_items as $track) {
-            echo '<div>' . esc_html($track['title'] ?? 'Zonder titel') . '</div>';
-        }
-        return ob_get_clean();
+    // basis endpoint
+    $endpoint = '/api/client_api/availabletrainingtracks/';
+    if (!empty($atts['id'])) {
+        $endpoint .= '?module_id=' . urlencode($atts['id']);
     }
 
+    // data ophalen
+    $tracks = $this->fetch_data($endpoint);
 
+    // als er geen geldige data is
+    if (empty($tracks)) {
+        return '<p>Geen trainingen gevonden.</p>';
+    }
+
+    return display_trainingtracks_template($tracks, $this->api_url);
+
+    // fallback (als template niet bestaat)
+    ob_start();
+    foreach ($track_items as $track) {
+        echo '<div>' . esc_html($track['title'] ?? 'Zonder titel') . '</div>';
+    }
+    return ob_get_clean();
+}
+
+    
 }
 
 new WPMentorCoursesCategories();

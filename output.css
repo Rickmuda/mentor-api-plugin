@@ -689,10 +689,6 @@ video {
   display: inline-block;
 }
 
-.tailwind-scope :is(.inline) {
-  display: inline;
-}
-
 .tailwind-scope :is(.flex) {
   display: flex;
 }
@@ -856,9 +852,9 @@ video {
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
-.tailwind-scope :is(.bg-\[\#F5F6FA\]) {
+.tailwind-scope :is(.bg-\[\#E0DFEC\]) {
   --tw-bg-opacity: 1;
-  background-color: rgb(245 246 250 / var(--tw-bg-opacity));
+  background-color: rgb(224 223 236 / var(--tw-bg-opacity));
 }
 
 .tailwind-scope :is(.bg-black) {
@@ -886,50 +882,16 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.tailwind-scope :is(.bg-\[\#E0DFEC\]) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(224 223 236 / var(--tw-bg-opacity));
-}
-
-.tailwind-scope :is(.bg-\[\#aaa6c4\]) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(170 166 196 / var(--tw-bg-opacity));
-}
-
 .tailwind-scope :is(.bg-opacity-50) {
   --tw-bg-opacity: 0.5;
-}
-
-.tailwind-scope :is(.bg-gradient-to-br) {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
-.tailwind-scope :is(.bg-gradient-to-r) {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
 
 .tailwind-scope :is(.bg-\[linear-gradient\(90deg\2c rgb\(239\2c 126\2c 47\)_0\%\2c rgb\(200\2c 52\2c 97\)_100\%\)\]) {
   background-image: linear-gradient(90deg,rgb(239,126,47) 0%,rgb(200,52,97) 100%);
 }
 
-.tailwind-scope :is(.from-\[\#FF6A3D\]) {
-  --tw-gradient-from: #FF6A3D var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(255 106 61 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.tailwind-scope :is(.from-\[\#EFE22F\]) {
-  --tw-gradient-from: #EFE22F var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(239 226 47 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.tailwind-scope :is(.to-\[\#FF3E6C\]) {
-  --tw-gradient-to: #FF3E6C var(--tw-gradient-to-position);
-}
-
-.tailwind-scope :is(.to-\[\#C83461\]) {
-  --tw-gradient-to: #C83461 var(--tw-gradient-to-position);
+.tailwind-scope :is(.bg-gradient-to-br) {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
 }
 
 .tailwind-scope :is(.object-cover) {
@@ -1015,11 +977,6 @@ video {
   line-height: 1.5rem;
 }
 
-.tailwind-scope :is(.text-lg) {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
 .tailwind-scope :is(.text-sm) {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1041,10 +998,6 @@ video {
 
 .tailwind-scope :is(.font-extrabold) {
   font-weight: 800;
-}
-
-.tailwind-scope :is(.font-medium) {
-  font-weight: 500;
 }
 
 .tailwind-scope :is(.font-semibold) {
@@ -1069,19 +1022,24 @@ video {
   color: rgb(22 25 79 / var(--tw-text-opacity));
 }
 
-.tailwind-scope :is(.text-\[\#1A1A1A\]) {
+.tailwind-scope :is(.text-\[\#211A50\]) {
   --tw-text-opacity: 1;
-  color: rgb(26 26 26 / var(--tw-text-opacity));
+  color: rgb(33 26 80 / var(--tw-text-opacity));
 }
 
-.tailwind-scope :is(.text-\[\#FF3E6C\]) {
+.tailwind-scope :is(.text-\[\#211a50\]) {
   --tw-text-opacity: 1;
-  color: rgb(255 62 108 / var(--tw-text-opacity));
+  color: rgb(33 26 80 / var(--tw-text-opacity));
 }
 
-.tailwind-scope :is(.text-\[\#FF8A2C\]) {
+.tailwind-scope :is(.text-\[\#C83461\]) {
   --tw-text-opacity: 1;
-  color: rgb(255 138 44 / var(--tw-text-opacity));
+  color: rgb(200 52 97 / var(--tw-text-opacity));
+}
+
+.tailwind-scope :is(.text-\[\#EF7E2F\]) {
+  --tw-text-opacity: 1;
+  color: rgb(239 126 47 / var(--tw-text-opacity));
 }
 
 .tailwind-scope :is(.text-gray-500) {
@@ -1102,34 +1060,6 @@ video {
 .tailwind-scope :is(.text-white) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.text-\[\#EF7E2F\]) {
-  --tw-text-opacity: 1;
-  color: rgb(239 126 47 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.text-\[\#C833461\]) {
-  color: #C833461;
-}
-
-.tailwind-scope :is(.text-\[\#C83461\]) {
-  --tw-text-opacity: 1;
-  color: rgb(200 52 97 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.text-\[\#211a50\]) {
-  --tw-text-opacity: 1;
-  color: rgb(33 26 80 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.text-black) {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.underline) {
-  text-decoration-line: underline;
 }
 
 .tailwind-scope :is(.shadow-lg) {
@@ -1170,18 +1100,8 @@ video {
   transition-duration: 150ms;
 }
 
-.tailwind-scope :is(.transition-all) {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .tailwind-scope :is(.duration-200) {
   transition-duration: 200ms;
-}
-
-.tailwind-scope :is(.duration-300) {
-  transition-duration: 300ms;
 }
 
 .course-card, .category-card {
@@ -1221,11 +1141,6 @@ video {
   background-color: #005177;
 }
 
-.tailwind-scope :is(.hover\:bg-\[\#ECEFF4\]:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(236 239 244 / var(--tw-bg-opacity));
-}
-
 .tailwind-scope :is(.hover\:bg-blue-700:hover) {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
@@ -1236,43 +1151,9 @@ video {
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
-.tailwind-scope :is(.hover\:bg-\[\#211a50\]:hover) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(33 26 80 / var(--tw-bg-opacity));
-}
-
-.tailwind-scope :is(.hover\:bg-gradient-to-r:hover) {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
-
-.tailwind-scope :is(.hover\:from-\[\#C834611A\]:hover) {
-  --tw-gradient-from: #C834611A var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(200 52 97 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.tailwind-scope :is(.hover\:from-\[\#C8346199\]:hover) {
-  --tw-gradient-from: #C8346199 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(200 52 97 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.tailwind-scope :is(.hover\:via-\[\#C8346199\]:hover) {
-  --tw-gradient-to: rgb(200 52 97 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), #C8346199 var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
-.tailwind-scope :is(.hover\:to-\[\#211A50E6\]:hover) {
-  --tw-gradient-to: #211A50E6 var(--tw-gradient-to-position);
-}
-
-.tailwind-scope :is(.hover\:to-\[\#211A50\]:hover) {
-  --tw-gradient-to: #211A50 var(--tw-gradient-to-position);
-}
-
-.tailwind-scope :is(.hover\:bg-clip-text:hover) {
-  -webkit-background-clip: text;
-          background-clip: text;
+.tailwind-scope :is(.hover\:text-\[\#9f264b\]:hover) {
+  --tw-text-opacity: 1;
+  color: rgb(159 38 75 / var(--tw-text-opacity));
 }
 
 .tailwind-scope :is(.hover\:text-gray-700:hover) {
@@ -1280,26 +1161,8 @@ video {
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.tailwind-scope :is(.hover\:text-\[\#211a50\]:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(33 26 80 / var(--tw-text-opacity));
-}
-
-.tailwind-scope :is(.hover\:text-transparent:hover) {
-  color: transparent;
-}
-
-.tailwind-scope :is(.hover\:text-\[\#9f264b\]:hover) {
-  --tw-text-opacity: 1;
-  color: rgb(159 38 75 / var(--tw-text-opacity));
-}
-
 .tailwind-scope :is(.hover\:opacity-90:hover) {
   opacity: 0.9;
-}
-
-.tailwind-scope :is(.hover\:opacity-60:hover) {
-  opacity: 0.6;
 }
 
 @media (min-width: 640px) {

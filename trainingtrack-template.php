@@ -67,7 +67,7 @@ $items = $tracks['results'] ?? $tracks;
     .is-text-link:not(.acf-block-preview):hover::after {
         transform: translate(0.25em, 0);
     }
-
+#211A50
 </style>
 <div class="tailwind-scope tw container mx-auto px-4 py-10">
 
@@ -97,7 +97,7 @@ $items = $tracks['results'] ?? $tracks;
                     <div class="flex items-center mb-6">
 
                         <div class="w-16 h-10 flex items-center justify-center rounded-xl
-                                    bg-gradient-to-br bg-[linear-gradient(90deg,rgb(239,126,47)_0%,rgb(200,52,97)_100%)]
+                                    bg-[linear-gradient(90deg,rgb(239,126,47)_0%,rgb(200,52,97)_100%)]
                                     text-white shadow-sm mr-4">
 
                             <!-- Heroicon: Calendar -->
@@ -124,7 +124,7 @@ $items = $tracks['results'] ?? $tracks;
                             <circle cx="10" cy="10" r="10"/>
                         </svg>
 
-                        <div class="text-gray-700 leading-tight pt-calibri-regular">
+                        <div class="text-[#211A50] leading-tight pt-calibri-regular">
                             <strong>Start:</strong>
                             <?php echo esc_html($track['training_start']); ?>
                         </div>
@@ -141,7 +141,7 @@ $items = $tracks['results'] ?? $tracks;
                                   d="M19.5 10.5c0 7.125-7.5 11.25-7.5 11.25S4.5 17.625 4.5 10.5A7.5 7.5 0 1119.5 10.5z"/>
                         </svg>
 
-                        <div class="text-gray-700 leading-tight pt-calibri-regular">
+                        <div class="text-[#211A50] leading-tight pt-calibri-regular">
                             <strong>Locatie:</strong>
                             <?php echo esc_html($track['traininglessons'][0]['location_label_no_room'] ?? 'n.n.b.'); ?>
                         </div>
@@ -193,7 +193,7 @@ $items = $tracks['results'] ?? $tracks;
 
                         <h3 class="text-xxl tk-finalsix font-bold mb-4 text-[#211a50]">Trainingsdagen</h3>
 
-                        <ul class="space-y-3 text-black text-sm pt-sans-regular">
+                        <ul class="space-y-3 text-[#211A50] text-sm pt-sans-regular">
                             <?php foreach ($track['traininglessons'] as $lesson): ?>
                                 <li class="p-4 bg-[#E0DFEC] rounded-xl">
 
@@ -211,7 +211,7 @@ $items = $tracks['results'] ?? $tracks;
                                         </svg>
                                         <span><?php echo esc_html($lesson['start']); ?></span>
                                     </div>
-                                    <div class="text-black flex items-center text-xs mb-1">
+                                    <div class="text-[#211A50] flex items-center text-xs mb-1">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="h-4 w-4 mr-1 text-[#EF7E2F]"
                                              viewBox="0 0 24 24"
@@ -229,7 +229,7 @@ $items = $tracks['results'] ?? $tracks;
                                                   stroke-width="2"
                                                   stroke-linecap="round"/>
                                         </svg>
-                                        <span class="text-black"><?php echo esc_html($lesson['start_time']); ?> - <?php echo esc_html($lesson['end_time']); ?></span>
+                                        <span class="text-[#211A50]"><?php echo esc_html($lesson['start_time']); ?> - <?php echo esc_html($lesson['end_time']); ?></span>
                                     </div>
                                 </li>
                             <?php endforeach; ?>
