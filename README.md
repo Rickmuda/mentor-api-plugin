@@ -1,60 +1,105 @@
-# Plug and Play Plugin voor Mentor
+# Mentor Plugin voor WordPress
 
-Dit is een **plug-and-play plugin** die WordPress integreert met Mentor-cursussen. Met deze plugin kun je eenvoudig de categorieën en cursussen van je Mentor API weergeven in WordPress. Perfect voor het weergeven van je cursussen zonder technische rompslomp.
-
-## Inhoudsopgave
-- [Installatie](#installatie)
-- [Configuratie](#configuratie)
-- [Gebruik](#gebruik)
-- [Ontwikkeling](#ontwikkeling)
+WordPress plugin die integreert met het Mentor platform. Toon cursussen, categorieën, startdata en reviews op je website.
 
 ## Installatie
 
-### Stap 1: Download de Plugin
-
-In plaats van de bronbestanden te gebruiken, raden we aan de **laatste stabiele versie** van de plugin te downloaden via de [releases pagina](https://github.com/[your-repo]/releases). Daar vind je een kant-en-klare `.zip`-bestand dat eenvoudig geïnstalleerd kan worden.
-
-1. **Download de laatste release:**
-   - Ga naar de [releases pagina](https://github.com/MarkVergunst/mentor-api-plugin/releases).
-   - Download de nieuwste versie van de plugin (`mentor-api-plugin.zip`).
-   - (Optioneel) Hernoem deze naar `mentor-api-plugin.zip`
-
-2. **Upload de plugin:**
-   - Ga naar je WordPress admin panel.
-   - Navigeer naar `Plugins > Nieuwe Plugin > Plugin Uploaden`.
-   - Upload het zojuist gedownloade `.zip`-bestand.
-
-3. **Activeer de plugin:**
-   - Nadat de upload is voltooid, klik op 'Activeer Plugin'.
+1. Download de laatste release via de [releases pagina](https://github.com/MarkVergunst/mentor-api-plugin/releases)
+2. Ga naar `Plugins > Nieuwe Plugin > Plugin Uploaden` in WordPress
+3. Upload het `.zip`-bestand en activeer de plugin
 
 ## Configuratie
 
-Na activatie moet je enkele instellingen configureren:
+Ga naar **Mentor Plugin > Instellingen** en vul in:
 
-1. Ga naar `Instellingen > Mentor Courses and Categories`.
-2. Voer de volgende gegevens in:
-   - **API-URL:** De URL van je Mentor API.
-3. Klik op 'Opslaan' om de configuratie op te slaan.
+| Instelling | Beschrijving |
+|---|---|
+| **API URL** | De basis-URL van je Mentor omgeving |
+| **Klantthema overnemen** | Kleuren en lettertype uit Mentor overnemen |
+| **Organisatie ID** | Je organisatie ID (vereist voor reviews) |
+| **Review API Key** | API key voor de review API |
+| **Cache duur** | Hoe lang API-responses gecached worden (standaard 15 min) |
 
-## Gebruik
+## Shortcodes
 
-Je kunt de plugin eenvoudig gebruiken door de shortcodes in je berichten of pagina's te plaatsen:
+### Overzichten
 
-- Toon alle categorieën:  
-  ```[mentor_categories]```
+| Shortcode | Beschrijving |
+|---|---|
+| `[mentor_courses]` | Cursussen als kaartjes met afbeelding, prijs en review-score |
+| `[mentor_categories]` | Categorieën met zoekfunctie |
+| `[mentor_startdata id=X]` | Startdata-agenda met locatie- en beschikbaarheidsfilters |
+| `[display_coursegroup_wc id=X]` | Trainingsmomenten met dagplanning-modal |
+| `[mentor_reviews]` | Alle reviews van de organisatie |
+| `[mentor_reviews id=X]` | Reviews voor een specifieke cursus |
 
-- Toon een lijst met cursussen:  
-  ```[mentor_courses]```
+### Cursusdetailpagina
 
-Deze shortcodes halen dynamisch de gegevens op van je Mentor API en tonen ze in WordPress.
+| Shortcode | Beschrijving |
+|---|---|
+| `[mentor_cursus_detail id=X]` | Complete detailpagina (alles in een) |
+| `[mentor_cursus_titel]` | Cursustitel |
+| `[mentor_cursus_thema]` | Thema / onderwerp |
+| `[mentor_cursus_afbeelding]` | Cursusafbeelding |
+| `[mentor_cursus_prijs]` | Prijs (incl. korting) |
+| `[mentor_cursus_omschrijving]` | Volledige beschrijving |
+| `[mentor_cursus_docenten]` | Docentenkaartjes met foto en bio |
+| `[mentor_cursus_inschrijven]` | Inschrijfknop |
+| `[mentor_cursus_reviews]` | Reviews voor deze cursus |
+
+De losse veld-shortcodes ondersteunen `id=X` als attribuut, of lezen `?cursus_id=X` uit de URL.
+
+## Shortcode Builder
+
+Ga naar **Mentor Plugin > Shortcode Builder** om shortcodes visueel samen te stellen met live preview.
+
+## Architectuur
+
+De plugin is opgebouwd uit vier klassen:
+
+| Klasse | Bestand | Verantwoordelijkheid |
+|---|---|---|
+| `MentorApi` | `includes/class-mentor-api.php` | API calls, caching, review data |
+| `MentorShortcodes` | `includes/class-mentor-shortcodes.php` | Alle shortcode handlers |
+| `MentorTheme` | `includes/class-mentor-theme.php` | Klantthema (kleuren, fonts) |
+| `MentorAdmin` | `includes/class-mentor-admin.php` | Instellingen, shortcode builder, AJAX |
+
+Het hoofdbestand (`mentor-api-plugin.php`) laadt de klassen en verbindt ze.
+
+## Mappenstructuur
+
+```
+mentor-plugin/
+├── mentor-api-plugin.php          # Hoofdbestand (bootstrap)
+├── uninstall.php                  # Cleanup bij deinstallatie
+├── includes/
+│   ├── class-mentor-api.php       # API client + caching
+│   ├── class-mentor-shortcodes.php # Shortcode handlers
+│   ├── class-mentor-theme.php     # Klantthema injectie
+│   ├── class-mentor-admin.php     # Admin pagina's + AJAX
+│   └── template-functions.php     # Template loaders + star helper
+├── templates/
+│   ├── course.php                 # Cursuskaartjes
+│   ├── course-list.php            # Cursuslijst (alternatief)
+│   ├── category.php               # Categorieën
+│   ├── cursus-detail.php          # Cursusdetailpagina
+│   ├── cursus-docenten.php        # Docentenkaartjes
+│   ├── startdata.php              # Startdata-agenda
+│   ├── trainingtrack.php          # Trainingsmomenten met modal
+│   └── reviews.php                # Reviews en beoordelingen
+├── assets/
+│   └── css/
+│       ├── mentor-plugin.css      # Gecompileerde Tailwind CSS
+│       └── styles.css             # Tailwind bron
+├── tailwind.config.js
+└── package.json
+```
 
 ## Ontwikkeling
 
-Als je aanpassingen wilt maken of de stijl van de plugin wilt wijzigen, kun je gebruik maken van **Tailwind CSS**.
+Tailwind CSS wordt gebruikt voor de trainingtrack-template. Overige templates gebruiken scoped CSS.
 
-### Stappen om te ontwikkelen:
-
-1. Zorg ervoor dat je Node.js geïnstalleerd hebt.
-2. Gebruik de volgende Tailwind command-line om de stijlen in de gaten te houden en te compileren:
-   ```bash
-   npx tailwindcss -i ./styles.css -o ./output.css
+```bash
+npm install
+npx tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --watch
+```

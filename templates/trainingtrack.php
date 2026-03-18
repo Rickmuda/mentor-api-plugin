@@ -1,7 +1,6 @@
 <?php
 defined('ABSPATH') or die('No script kiddies please!');
 $items = $tracks['results'] ?? $tracks;
-//echo "<pre>"; print_r($items); echo "</pre>";
 ?>
 <!--<link rel="stylesheet" id="finalsix-css" href="https://use.typekit.net/vpf7cpc.css?ver=6.8.3" media="all">-->
 <!--<link rel="preconnect" href="https://fonts.googleapis.com">-->
