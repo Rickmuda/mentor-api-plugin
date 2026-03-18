@@ -62,19 +62,19 @@ class MentorApi
 
     public function fetch_review_data($path, $module_id = 0)
     {
-        $org_id = get_option('mentor_org_id');
-        $api_key = get_option('mentor_review_api_key');
-
-        if (empty($org_id) || empty($api_key) || empty($this->api_url)) {
+        if (empty($this->api_url)) {
             return [];
         }
 
-        $params = ['org' => $org_id, 'key' => $api_key];
+        $params = [];
         if ($module_id) {
             $params['module'] = $module_id;
         }
 
-        $endpoint = '/review/api/v1/public' . $path . '?' . http_build_query($params);
+        $endpoint = '/review/api/v1/public' . $path;
+        if (!empty($params)) {
+            $endpoint .= '?' . http_build_query($params);
+        }
         return $this->fetch_data($endpoint);
     }
 

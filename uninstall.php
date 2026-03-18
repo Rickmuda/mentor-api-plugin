@@ -15,8 +15,6 @@ delete_option('mentor_theme_enabled');
 delete_option('mentor_cache_duration');
 delete_option('mentor_cache_last_refresh');
 delete_option('mentor_detail_page_id');
-delete_option('mentor_org_id');
-delete_option('mentor_review_api_key');
 
 // Verwijder alle transients
 global $wpdb;

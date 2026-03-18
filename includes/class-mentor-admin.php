@@ -129,32 +129,6 @@ class MentorAdmin
         );
 
         add_settings_field(
-            'mentor_org_id',
-            'Organisatie ID',
-            array($this, 'field_callback'),
-            'wp_mentor_courses_categories',
-            'wp_mentor_courses_categories_section',
-            array(
-                'label_for' => 'mentor_org_id',
-                'type' => 'number',
-                'option_name' => 'mentor_org_id'
-            )
-        );
-
-        add_settings_field(
-            'mentor_review_api_key',
-            'Review API Key',
-            array($this, 'field_callback'),
-            'wp_mentor_courses_categories',
-            'wp_mentor_courses_categories_section',
-            array(
-                'label_for' => 'mentor_review_api_key',
-                'type' => 'text',
-                'option_name' => 'mentor_review_api_key'
-            )
-        );
-
-        add_settings_field(
             'mentor_cache_duration',
             'Cache duur (minuten)',
             array($this, 'field_callback'),
@@ -171,13 +145,6 @@ class MentorAdmin
             'sanitize_callback' => 'esc_url_raw',
         ]);
         register_setting('wp_mentor_courses_categories', 'mentor_theme_enabled');
-        register_setting('wp_mentor_courses_categories', 'mentor_org_id', [
-            'type' => 'integer',
-            'sanitize_callback' => 'absint',
-        ]);
-        register_setting('wp_mentor_courses_categories', 'mentor_review_api_key', [
-            'sanitize_callback' => 'sanitize_text_field',
-        ]);
         register_setting('wp_mentor_courses_categories', 'mentor_cache_duration', [
             'type' => 'integer',
             'default' => 15,

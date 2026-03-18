@@ -16,8 +16,6 @@ Ga naar **Mentor Plugin > Instellingen** en vul in:
 |---|---|
 | **API URL** | De basis-URL van je Mentor omgeving |
 | **Klantthema overnemen** | Kleuren en lettertype uit Mentor overnemen |
-| **Organisatie ID** | Je organisatie ID (vereist voor reviews) |
-| **Review API Key** | API key voor de review API |
 | **Cache duur** | Hoe lang API-responses gecached worden (standaard 15 min) |
 
 ## Shortcodes
