@@ -163,7 +163,7 @@ $cat_items = $categories['results'] ?? [];
                         <?php endif; ?>
 
                         <?php if (!empty($desc)): ?>
-                            <div class="mcat-card-desc"><?php echo $desc; ?></div>
+                            <div class="mcat-card-desc"><?php echo wp_kses_post($desc); ?></div>
                         <?php endif; ?>
 
                         <a href="<?php echo esc_url($api_url); ?>/theme/<?php echo intval($category['id']); ?>/"

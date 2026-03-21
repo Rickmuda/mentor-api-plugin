@@ -1,14 +1,21 @@
 <?php
-/*
-Plugin Name: Mentor Plugin
-Description: Toon cursussen, categorieën en trainingsmomenten van Mentor op je WordPress website.
-Version: 2.0
-Author: Mark Vergunst
-*/
+/**
+ * Plugin Name: Mentor Plugin
+ * Plugin URI:  https://wordpress.org/plugins/mentor-plugin/
+ * Description: Toon cursussen, categorieën en trainingsmomenten van Mentor op je WordPress website.
+ * Version:     2.0.1
+ * Author:      Mark Vergunst
+ * Author URI:  https://poweredbymentor.nl
+ * License:     GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: mentor-plugin
+ * Requires at least: 5.6
+ * Requires PHP:      7.4
+ */
 
 defined('ABSPATH') or die('No script kiddies please!');
 
-define('MENTOR_PLUGIN_VERSION', '2.0');
+define('MENTOR_PLUGIN_VERSION', '2.0.1');
 define('MENTOR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MENTOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 

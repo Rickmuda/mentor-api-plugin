@@ -76,7 +76,7 @@ $items = $tracks['results'] ?? $tracks;
             </h2>
 
             <p class="mt-3 text-[#000] max-w-2xl mx-auto text-base pt-sans-regular">
-                Kies uit verschillende startdata en locaties voor de training <?= $items[0]['module_title'] ?>
+                Kies uit verschillende startdata en locaties voor de training <?= esc_html($items[0]['module_title']) ?>
             </p>
         </div>
 

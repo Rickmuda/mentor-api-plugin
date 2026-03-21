@@ -205,9 +205,9 @@ if ($total < 1) {
                     $pct = $total > 0 ? ($count / $total) * 100 : 0;
                 ?>
                 <div class="mr-dist-row">
-                    <span class="mr-dist-label"><?php echo $i; ?></span>
-                    <div class="mr-dist-bar-bg"><div class="mr-dist-bar" style="width: <?php echo $pct; ?>%"></div></div>
-                    <span class="mr-dist-count"><?php echo $count; ?></span>
+                    <span class="mr-dist-label"><?php echo esc_html($i); ?></span>
+                    <div class="mr-dist-bar-bg"><div class="mr-dist-bar" style="width: <?php echo esc_attr($pct); ?>%"></div></div>
+                    <span class="mr-dist-count"><?php echo esc_html($count); ?></span>
                 </div>
                 <?php endfor; ?>
             </div>
