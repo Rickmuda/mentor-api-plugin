@@ -13,37 +13,37 @@ function mentor_render_stars($rating, $size = 16) {
     return $html;
 }
 
-function display_course_template($courses, $api_url, $review_stats = []) {
+function mentor_display_course_template($courses, $api_url, $review_stats = []) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/course.php';
     return ob_get_clean();
 }
 
-function display_category_template($categories, $api_url) {
+function mentor_display_category_template($categories, $api_url) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/category.php';
     return ob_get_clean();
 }
 
-function display_trainingtracks_template($tracks, $api_url) {
+function mentor_display_trainingtracks_template($tracks, $api_url) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/trainingtrack.php';
     return ob_get_clean();
 }
 
-function display_startdata_template($tracks, $api_url) {
+function mentor_display_startdata_template($tracks, $api_url) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/startdata.php';
     return ob_get_clean();
 }
 
-function display_cursus_detail_template($course, $tracks, $api_url) {
+function mentor_display_cursus_detail_template($course, $tracks, $api_url) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/cursus-detail.php';
     return ob_get_clean();
 }
 
-function display_reviews_template($reviews, $aggregate, $module_id = 0) {
+function mentor_display_reviews_template($reviews, $aggregate, $module_id = 0) {
     ob_start();
     include MENTOR_PLUGIN_DIR . 'templates/reviews.php';
     return ob_get_clean();

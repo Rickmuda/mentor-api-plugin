@@ -23,7 +23,7 @@ $teachers = $course['teachers'] ?? [];
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .mcd-hero {
+#<?php echo esc_attr($instance_id); ?> .mcd-hero {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -31,17 +31,17 @@ $teachers = $course['teachers'] ?? [];
     align-items: start;
 }
 @media (max-width: 768px) {
-    #<?php echo $instance_id; ?> .mcd-hero {
+    #<?php echo esc_attr($instance_id); ?> .mcd-hero {
         grid-template-columns: 1fr;
     }
 }
-#<?php echo $instance_id; ?> .mcd-img {
+#<?php echo esc_attr($instance_id); ?> .mcd-img {
     width: 100%;
     border-radius: 16px;
     object-fit: cover;
     max-height: 400px;
 }
-#<?php echo $instance_id; ?> .mcd-subject {
+#<?php echo esc_attr($instance_id); ?> .mcd-subject {
     font-size: 13px;
     font-weight: 600;
     color: var(--color-primary, #417AB3);
@@ -49,55 +49,55 @@ $teachers = $course['teachers'] ?? [];
     letter-spacing: 0.5px;
     margin-bottom: 8px;
 }
-#<?php echo $instance_id; ?> .mcd-title {
+#<?php echo esc_attr($instance_id); ?> .mcd-title {
     font-size: 2rem;
     font-weight: 800;
     color: var(--color-body-text, #1f2937);
     margin: 0 0 20px 0;
     line-height: 1.2;
 }
-#<?php echo $instance_id; ?> .mcd-description {
+#<?php echo esc_attr($instance_id); ?> .mcd-description {
     font-size: 15px;
     line-height: 1.7;
     color: #4b5563;
     margin-bottom: 24px;
 }
-#<?php echo $instance_id; ?> .mcd-description p {
+#<?php echo esc_attr($instance_id); ?> .mcd-description p {
     margin: 0 0 12px 0;
 }
-#<?php echo $instance_id; ?> .mcd-price-block {
+#<?php echo esc_attr($instance_id); ?> .mcd-price-block {
     background: #f9fafb;
     border-radius: 12px;
     padding: 16px 20px;
     margin-bottom: 24px;
     display: inline-block;
 }
-#<?php echo $instance_id; ?> .mcd-price-label {
+#<?php echo esc_attr($instance_id); ?> .mcd-price-label {
     font-size: 12px;
     color: #9ca3af;
     margin-bottom: 4px;
 }
-#<?php echo $instance_id; ?> .mcd-price {
+#<?php echo esc_attr($instance_id); ?> .mcd-price {
     font-size: 1.35rem;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
 }
-#<?php echo $instance_id; ?> .mcd-price-vat {
+#<?php echo esc_attr($instance_id); ?> .mcd-price-vat {
     font-size: 12px;
     color: #9ca3af;
     margin-top: 2px;
 }
-#<?php echo $instance_id; ?> .mcd-price-total {
+#<?php echo esc_attr($instance_id); ?> .mcd-price-total {
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid #e5e7eb;
     font-size: 12px;
     color: #9ca3af;
 }
-#<?php echo $instance_id; ?> .mcd-price-total strong {
+#<?php echo esc_attr($instance_id); ?> .mcd-price-total strong {
     color: var(--color-body-text, #1f2937);
 }
-#<?php echo $instance_id; ?> .mcd-discount {
+#<?php echo esc_attr($instance_id); ?> .mcd-discount {
     display: inline-block;
     background: #dcfce7;
     color: #166534;
@@ -107,7 +107,7 @@ $teachers = $course['teachers'] ?? [];
     border-radius: 9999px;
     margin-top: 8px;
 }
-#<?php echo $instance_id; ?> .mcd-btn {
+#<?php echo esc_attr($instance_id); ?> .mcd-btn {
     display: inline-flex;
     align-items: center;
     padding: 14px 32px;
@@ -119,26 +119,26 @@ $teachers = $course['teachers'] ?? [];
     background-color: var(--color-primary, #417AB3);
     transition: opacity 0.2s;
 }
-#<?php echo $instance_id; ?> .mcd-btn:hover {
+#<?php echo esc_attr($instance_id); ?> .mcd-btn:hover {
     opacity: 0.9;
 }
-#<?php echo $instance_id; ?> .mcd-btn svg {
+#<?php echo esc_attr($instance_id); ?> .mcd-btn svg {
     width: 18px;
     height: 18px;
     margin-left: 10px;
 }
-#<?php echo $instance_id; ?> .mcd-section-title {
+#<?php echo esc_attr($instance_id); ?> .mcd-section-title {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
     margin: 48px 0 24px 0;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-grid {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-card {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
@@ -147,26 +147,26 @@ $teachers = $course['teachers'] ?? [];
     gap: 16px;
     align-items: flex-start;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-photo {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-photo {
     width: 64px;
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-name {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-name {
     font-size: 16px;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
     margin: 0 0 4px 0;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-themes {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-themes {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
     margin-top: 8px;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-theme {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-theme {
     font-size: 11px;
     font-weight: 600;
     padding: 3px 8px;
@@ -174,7 +174,7 @@ $teachers = $course['teachers'] ?? [];
     background: #f3f4f6;
     color: #6b7280;
 }
-#<?php echo $instance_id; ?> .mcd-teacher-bio {
+#<?php echo esc_attr($instance_id); ?> .mcd-teacher-bio {
     font-size: 13px;
     color: #6b7280;
     margin-top: 6px;
@@ -182,7 +182,7 @@ $teachers = $course['teachers'] ?? [];
 }
 </style>
 
-<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo $instance_id; ?>">
+<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo esc_attr($instance_id); ?>">
     <div style="padding: 40px 0;">
 
         <!-- Hero: afbeelding + info -->
@@ -245,7 +245,7 @@ $teachers = $course['teachers'] ?? [];
                         $photo = rtrim($api_url, '/') . '/' . ltrim($photo, '/');
                         if (strpos($photo, '..') !== false) $photo = '';
                     }
-                    $bio = strip_tags($teacher['summary'] ?? '');
+                    $bio = wp_strip_all_tags($teacher['summary'] ?? '');
                     if (mb_strlen($bio) > 150) {
                         $bio = mb_substr($bio, 0, 150) . '...';
                     }

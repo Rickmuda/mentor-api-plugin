@@ -19,26 +19,26 @@ sort($subjects);
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .mc-grid {
+#<?php echo esc_attr($instance_id); ?> .mc-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 @media (max-width: 1024px) {
-    #<?php echo $instance_id; ?> .mc-grid {
+    #<?php echo esc_attr($instance_id); ?> .mc-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (max-width: 640px) {
-    #<?php echo $instance_id; ?> .mc-grid {
+    #<?php echo esc_attr($instance_id); ?> .mc-grid {
         grid-template-columns: 1fr;
     }
-    #<?php echo $instance_id; ?> .mc-header {
+    #<?php echo esc_attr($instance_id); ?> .mc-header {
         flex-direction: column !important;
         align-items: flex-start !important;
     }
 }
-#<?php echo $instance_id; ?> .mc-card {
+#<?php echo esc_attr($instance_id); ?> .mc-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
@@ -46,26 +46,26 @@ sort($subjects);
     display: flex;
     flex-direction: column;
 }
-#<?php echo $instance_id; ?> .mc-card-img {
+#<?php echo esc_attr($instance_id); ?> .mc-card-img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     display: block;
 }
-#<?php echo $instance_id; ?> .mc-card-body {
+#<?php echo esc_attr($instance_id); ?> .mc-card-body {
     padding: 24px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
-#<?php echo $instance_id; ?> .mc-card-title {
+#<?php echo esc_attr($instance_id); ?> .mc-card-title {
     font-size: 1.2rem;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
     margin: 0 0 8px 0;
     line-height: 1.3;
 }
-#<?php echo $instance_id; ?> .mc-card-subject {
+#<?php echo esc_attr($instance_id); ?> .mc-card-subject {
     font-size: 12px;
     font-weight: 600;
     color: var(--color-primary, #417AB3);
@@ -73,14 +73,14 @@ sort($subjects);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-#<?php echo $instance_id; ?> .mc-card-desc {
+#<?php echo esc_attr($instance_id); ?> .mc-card-desc {
     font-size: 14px;
     color: #6b7280;
     line-height: 1.6;
     margin: 0 0 20px 0;
     flex-grow: 1;
 }
-#<?php echo $instance_id; ?> .mc-card-footer {
+#<?php echo esc_attr($instance_id); ?> .mc-card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -88,12 +88,12 @@ sort($subjects);
     padding-top: 16px;
     border-top: 1px solid #f3f4f6;
 }
-#<?php echo $instance_id; ?> .mc-price {
+#<?php echo esc_attr($instance_id); ?> .mc-price {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
 }
-#<?php echo $instance_id; ?> .mc-btn {
+#<?php echo esc_attr($instance_id); ?> .mc-btn {
     display: inline-flex;
     align-items: center;
     padding: 10px 24px;
@@ -106,15 +106,15 @@ sort($subjects);
     transition: opacity 0.2s;
     white-space: nowrap;
 }
-#<?php echo $instance_id; ?> .mc-btn:hover {
+#<?php echo esc_attr($instance_id); ?> .mc-btn:hover {
     opacity: 0.9;
 }
-#<?php echo $instance_id; ?> .mc-btn svg {
+#<?php echo esc_attr($instance_id); ?> .mc-btn svg {
     width: 16px;
     height: 16px;
     margin-left: 8px;
 }
-#<?php echo $instance_id; ?> .mc-select {
+#<?php echo esc_attr($instance_id); ?> .mc-select {
     border: 1px solid var(--color-primary, #417AB3);
     border-radius: 8px;
     padding: 10px 40px 10px 16px;
@@ -128,7 +128,7 @@ sort($subjects);
     background-repeat: no-repeat;
     background-position: right 12px center;
 }
-#<?php echo $instance_id; ?> .mc-search {
+#<?php echo esc_attr($instance_id); ?> .mc-search {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     padding: 10px 16px 10px 40px;
@@ -139,19 +139,19 @@ sort($subjects);
     background-repeat: no-repeat;
     background-position: left 12px center;
 }
-#<?php echo $instance_id; ?> .mc-search:focus {
+#<?php echo esc_attr($instance_id); ?> .mc-search:focus {
     outline: none;
     border-color: var(--color-primary, #417AB3);
     box-shadow: 0 0 0 2px rgba(65, 122, 179, 0.15);
 }
-#<?php echo $instance_id; ?> .mc-no-results {
+#<?php echo esc_attr($instance_id); ?> .mc-no-results {
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px 20px;
     color: #9ca3af;
     font-size: 15px;
 }
-#<?php echo $instance_id; ?> .mc-review-badge {
+#<?php echo esc_attr($instance_id); ?> .mc-review-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -159,13 +159,13 @@ sort($subjects);
     color: #6b7280;
     margin-bottom: 12px;
 }
-#<?php echo $instance_id; ?> .mc-review-badge strong {
+#<?php echo esc_attr($instance_id); ?> .mc-review-badge strong {
     color: var(--color-body-text, #1f2937);
     font-weight: 700;
 }
 </style>
 
-<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo $instance_id; ?>">
+<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo esc_attr($instance_id); ?>">
     <div style="padding: 40px 0;">
 
         <!-- Header + Filters -->
@@ -177,14 +177,14 @@ sort($subjects);
             <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
                 <!-- Zoeken -->
                 <input type="text"
-                       id="<?php echo $instance_id; ?>-search"
+                       id="<?php echo esc_attr($instance_id); ?>-search"
                        class="mc-search"
                        placeholder="Zoek een training..."
                        aria-label="Zoek een training">
 
                 <!-- Thema filter -->
                 <?php if (count($subjects) > 1): ?>
-                <select id="<?php echo $instance_id; ?>-subject-filter" class="mc-select" aria-label="Filter op thema">
+                <select id="<?php echo esc_attr($instance_id); ?>-subject-filter" class="mc-select" aria-label="Filter op thema">
                     <option value="">Alle thema's</option>
                     <?php foreach ($subjects as $subj): ?>
                         <option value="<?php echo esc_attr($subj); ?>"><?php echo esc_html($subj); ?></option>
@@ -195,7 +195,7 @@ sort($subjects);
         </div>
 
         <!-- Cards -->
-        <div class="mc-grid" id="<?php echo $instance_id; ?>-grid">
+        <div class="mc-grid" id="<?php echo esc_attr($instance_id); ?>-grid">
             <?php foreach ($course_items as $course): ?>
                 <div class="mc-card"
                      data-subject="<?php echo esc_attr($course['subject']['title'] ?? ''); ?>"
@@ -224,9 +224,9 @@ sort($subjects);
                                 $rs = $review_stats[$cid];
                         ?>
                         <div class="mc-review-badge">
-                            <?php echo mentor_render_stars($rs['average'], 14); ?>
+                            <?php echo wp_kses_post(mentor_render_stars($rs['average'], 14)); ?>
                             <strong><?php echo number_format($rs['average'], 1, ',', ''); ?></strong>
-                            <span>(<?php echo $rs['count']; ?>)</span>
+                            <span>(<?php echo esc_html($rs['count']); ?>)</span>
                         </div>
                         <?php endif; ?>
 
@@ -258,12 +258,12 @@ sort($subjects);
 <script>
 (function() {
     document.addEventListener("DOMContentLoaded", function() {
-        var root = document.getElementById("<?php echo $instance_id; ?>");
+        var root = document.getElementById("<?php echo esc_attr($instance_id); ?>");
         if (!root) return;
 
-        var searchInput = root.querySelector("#<?php echo $instance_id; ?>-search");
-        var subjectFilter = root.querySelector("#<?php echo $instance_id; ?>-subject-filter");
-        var grid = root.querySelector("#<?php echo $instance_id; ?>-grid");
+        var searchInput = root.querySelector("#<?php echo esc_attr($instance_id); ?>-search");
+        var subjectFilter = root.querySelector("#<?php echo esc_attr($instance_id); ?>-subject-filter");
+        var grid = root.querySelector("#<?php echo esc_attr($instance_id); ?>-grid");
         var cards = root.querySelectorAll(".mc-card");
 
         function applyFilters() {

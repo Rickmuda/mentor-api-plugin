@@ -27,7 +27,7 @@ sort($locations);
 $grouped = [];
 foreach ($items as $item) {
     $raw = $item['training_start_raw'] ?? '';
-    $year = $raw ? date('Y', strtotime($raw)) : date('Y');
+    $year = $raw ? gmdate('Y', strtotime($raw)) : gmdate('Y');
     $grouped[$year][] = $item;
 }
 ksort($grouped);
@@ -37,27 +37,27 @@ $initial_visible = 6;
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .sd-grid {
+#<?php echo esc_attr($instance_id); ?> .sd-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin-bottom: 32px;
 }
 @media (max-width: 1024px) {
-    #<?php echo $instance_id; ?> .sd-grid {
+    #<?php echo esc_attr($instance_id); ?> .sd-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (max-width: 640px) {
-    #<?php echo $instance_id; ?> .sd-grid {
+    #<?php echo esc_attr($instance_id); ?> .sd-grid {
         grid-template-columns: 1fr;
     }
-    #<?php echo $instance_id; ?> .sd-header {
+    #<?php echo esc_attr($instance_id); ?> .sd-header {
         flex-direction: column !important;
         align-items: flex-start !important;
     }
 }
-#<?php echo $instance_id; ?> .sd-card {
+#<?php echo esc_attr($instance_id); ?> .sd-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
@@ -65,33 +65,33 @@ $initial_visible = 6;
     display: flex;
     flex-direction: column;
 }
-#<?php echo $instance_id; ?> .sd-date {
+#<?php echo esc_attr($instance_id); ?> .sd-date {
     font-size: 1.35rem;
     font-weight: 700;
     color: var(--color-primary, #417AB3);
     margin: 0 0 20px 0;
     line-height: 1.3;
 }
-#<?php echo $instance_id; ?> .sd-meta {
+#<?php echo esc_attr($instance_id); ?> .sd-meta {
     display: flex;
     justify-content: space-between;
     gap: 16px;
     margin-bottom: 24px;
 }
-#<?php echo $instance_id; ?> .sd-meta-label {
+#<?php echo esc_attr($instance_id); ?> .sd-meta-label {
     font-size: 12px;
     color: #9ca3af;
     margin-bottom: 4px;
 }
-#<?php echo $instance_id; ?> .sd-meta-value {
+#<?php echo esc_attr($instance_id); ?> .sd-meta-value {
     font-size: 13px;
     font-weight: 500;
     color: #1f2937;
 }
-#<?php echo $instance_id; ?> .sd-meta-value-avail {
+#<?php echo esc_attr($instance_id); ?> .sd-meta-value-avail {
     white-space: nowrap;
 }
-#<?php echo $instance_id; ?> .sd-avail-dot {
+#<?php echo esc_attr($instance_id); ?> .sd-avail-dot {
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -99,7 +99,7 @@ $initial_visible = 6;
     margin-right: 8px;
     vertical-align: middle;
 }
-#<?php echo $instance_id; ?> .sd-accordion-btn {
+#<?php echo esc_attr($instance_id); ?> .sd-accordion-btn {
     width: 100%;
     display: flex;
     align-items: center;
@@ -114,16 +114,16 @@ $initial_visible = 6;
     cursor: pointer;
     transition: background 0.15s;
 }
-#<?php echo $instance_id; ?> .sd-accordion-btn:hover {
+#<?php echo esc_attr($instance_id); ?> .sd-accordion-btn:hover {
     background: #e5e7eb;
 }
-#<?php echo $instance_id; ?> .sd-accordion-icon {
+#<?php echo esc_attr($instance_id); ?> .sd-accordion-icon {
     width: 20px;
     height: 20px;
     color: #6b7280;
     transition: transform 0.2s;
 }
-#<?php echo $instance_id; ?> .sd-btn-inschrijven {
+#<?php echo esc_attr($instance_id); ?> .sd-btn-inschrijven {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -136,10 +136,10 @@ $initial_visible = 6;
     background-color: var(--color-primary, #417AB3);
     transition: opacity 0.2s;
 }
-#<?php echo $instance_id; ?> .sd-btn-inschrijven:hover {
+#<?php echo esc_attr($instance_id); ?> .sd-btn-inschrijven:hover {
     opacity: 0.9;
 }
-#<?php echo $instance_id; ?> .sd-btn-show-all {
+#<?php echo esc_attr($instance_id); ?> .sd-btn-show-all {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -153,10 +153,10 @@ $initial_visible = 6;
     cursor: pointer;
     transition: opacity 0.2s;
 }
-#<?php echo $instance_id; ?> .sd-btn-show-all:hover {
+#<?php echo esc_attr($instance_id); ?> .sd-btn-show-all:hover {
     opacity: 0.9;
 }
-#<?php echo $instance_id; ?> .sd-select {
+#<?php echo esc_attr($instance_id); ?> .sd-select {
     border: 1px solid var(--color-primary, #417AB3);
     border-radius: 8px;
     padding: 10px 40px 10px 16px;
@@ -170,7 +170,7 @@ $initial_visible = 6;
     background-repeat: no-repeat;
     background-position: right 12px center;
 }
-#<?php echo $instance_id; ?> .sd-toggle {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle {
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -180,13 +180,13 @@ $initial_visible = 6;
     font-size: 14px;
     color: #1f2937;
 }
-#<?php echo $instance_id; ?> .sd-toggle input {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle input {
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
 }
-#<?php echo $instance_id; ?> .sd-toggle-track {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle-track {
     width: 44px;
     height: 26px;
     background: #d1d5db;
@@ -195,10 +195,10 @@ $initial_visible = 6;
     transition: background 0.2s;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .sd-toggle input:checked + .sd-toggle-track {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle input:checked + .sd-toggle-track {
     background: #22c55e;
 }
-#<?php echo $instance_id; ?> .sd-toggle-knob {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle-knob {
     width: 20px;
     height: 20px;
     background: #fff;
@@ -209,30 +209,30 @@ $initial_visible = 6;
     transition: transform 0.2s;
     box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
-#<?php echo $instance_id; ?> .sd-toggle input:checked + .sd-toggle-track .sd-toggle-knob {
+#<?php echo esc_attr($instance_id); ?> .sd-toggle input:checked + .sd-toggle-track .sd-toggle-knob {
     transform: translateX(18px);
 }
-#<?php echo $instance_id; ?> .sd-year-sep {
+#<?php echo esc_attr($instance_id); ?> .sd-year-sep {
     display: flex;
     align-items: center;
     gap: 16px;
     margin-bottom: 24px;
     margin-top: 8px;
 }
-#<?php echo $instance_id; ?> .sd-year-label {
+#<?php echo esc_attr($instance_id); ?> .sd-year-label {
     font-size: 14px;
     font-weight: 700;
     color: #6b7280;
     white-space: nowrap;
 }
-#<?php echo $instance_id; ?> .sd-year-line {
+#<?php echo esc_attr($instance_id); ?> .sd-year-line {
     flex-grow: 1;
     height: 1px;
     background: #d1d5db;
 }
 </style>
 
-<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo $instance_id; ?>">
+<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo esc_attr($instance_id); ?>">
     <div style="padding: 40px 0;">
 
         <!-- Header -->
@@ -242,7 +242,7 @@ $initial_visible = 6;
             </h2>
 
             <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px;">
-                <select id="<?php echo $instance_id; ?>-location-filter" class="sd-select" aria-label="Filter op locatie">
+                <select id="<?php echo esc_attr($instance_id); ?>-location-filter" class="sd-select" aria-label="Filter op locatie">
                     <option value="">Alle locaties</option>
                     <?php foreach ($locations as $loc): ?>
                         <option value="<?php echo esc_attr($loc); ?>"><?php echo esc_html($loc); ?></option>
@@ -251,7 +251,7 @@ $initial_visible = 6;
 
                 <label class="sd-toggle">
                     <span>Toon enkel beschikbaar</span>
-                    <input type="checkbox" id="<?php echo $instance_id; ?>-avail-toggle" checked aria-label="Toon alleen beschikbare trainingen">
+                    <input type="checkbox" id="<?php echo esc_attr($instance_id); ?>-avail-toggle" checked aria-label="Toon alleen beschikbare trainingen">
                     <span class="sd-toggle-track">
                         <span class="sd-toggle-knob"></span>
                     </span>
@@ -297,7 +297,7 @@ $initial_visible = 6;
                     $card_index++;
                 ?>
 
-                <div class="sd-card startdata-card <?php echo $hidden_class; ?>"
+                <div class="sd-card startdata-card <?php echo esc_attr($hidden_class); ?>"
                      <?php if ($hidden_class): ?>style="display:none;"<?php endif; ?>
                      data-location="<?php echo esc_attr($location); ?>"
                      data-available="<?php echo $is_available ? '1' : '0'; ?>">
@@ -319,13 +319,13 @@ $initial_visible = 6;
 
                     <?php if (!empty($lessons)): ?>
                     <div style="margin-bottom: 24px;">
-                        <button class="sd-accordion-btn startdata-accordion-btn" data-target="<?php echo $accordion_id; ?>" type="button" aria-expanded="false" aria-controls="<?php echo $accordion_id; ?>">
+                        <button class="sd-accordion-btn startdata-accordion-btn" data-target="<?php echo esc_attr($accordion_id); ?>" type="button" aria-expanded="false" aria-controls="<?php echo esc_attr($accordion_id); ?>">
                             <span>Planning modules</span>
                             <svg class="sd-accordion-icon startdata-accordion-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                             </svg>
                         </button>
-                        <div id="<?php echo $accordion_id; ?>" style="display: none; margin-top: 8px;">
+                        <div id="<?php echo esc_attr($accordion_id); ?>" style="display: none; margin-top: 8px;">
                             <?php foreach ($lessons as $lesson): ?>
                                 <div style="background: #f9fafb; border-radius: 8px; padding: 12px 16px; font-size: 14px; margin-bottom: 8px;">
                                     <div style="font-weight: 600; color: #1f2937; margin-bottom: 4px;">
@@ -364,8 +364,8 @@ $initial_visible = 6;
         <?php endforeach; ?>
 
         <?php if ($card_index > $initial_visible): ?>
-        <div style="text-align: center; margin-top: 16px;" id="<?php echo $instance_id; ?>-show-all-wrap">
-            <button id="<?php echo $instance_id; ?>-show-all" class="sd-btn-show-all" type="button">
+        <div style="text-align: center; margin-top: 16px;" id="<?php echo esc_attr($instance_id); ?>-show-all-wrap">
+            <button id="<?php echo esc_attr($instance_id); ?>-show-all" class="sd-btn-show-all" type="button">
                 Toon alle data
                 <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -380,13 +380,13 @@ $initial_visible = 6;
 <script>
 (function() {
     document.addEventListener("DOMContentLoaded", function() {
-        var root = document.getElementById("<?php echo $instance_id; ?>");
+        var root = document.getElementById("<?php echo esc_attr($instance_id); ?>");
         if (!root) return;
 
-        var locationFilter = root.querySelector("#<?php echo $instance_id; ?>-location-filter");
-        var availToggle = root.querySelector("#<?php echo $instance_id; ?>-avail-toggle");
-        var showAllBtn = root.querySelector("#<?php echo $instance_id; ?>-show-all");
-        var showAllWrap = root.querySelector("#<?php echo $instance_id; ?>-show-all-wrap");
+        var locationFilter = root.querySelector("#<?php echo esc_attr($instance_id); ?>-location-filter");
+        var availToggle = root.querySelector("#<?php echo esc_attr($instance_id); ?>-avail-toggle");
+        var showAllBtn = root.querySelector("#<?php echo esc_attr($instance_id); ?>-show-all");
+        var showAllWrap = root.querySelector("#<?php echo esc_attr($instance_id); ?>-show-all-wrap");
         var cards = root.querySelectorAll(".startdata-card");
         var allRevealed = false;
 

@@ -7,22 +7,22 @@ $cat_items = $categories['results'] ?? [];
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .mcat-grid {
+#<?php echo esc_attr($instance_id); ?> .mcat-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 @media (max-width: 1024px) {
-    #<?php echo $instance_id; ?> .mcat-grid {
+    #<?php echo esc_attr($instance_id); ?> .mcat-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 @media (max-width: 640px) {
-    #<?php echo $instance_id; ?> .mcat-grid {
+    #<?php echo esc_attr($instance_id); ?> .mcat-grid {
         grid-template-columns: 1fr;
     }
 }
-#<?php echo $instance_id; ?> .mcat-card {
+#<?php echo esc_attr($instance_id); ?> .mcat-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
@@ -30,39 +30,39 @@ $cat_items = $categories['results'] ?? [];
     display: flex;
     flex-direction: column;
 }
-#<?php echo $instance_id; ?> .mcat-card-img {
+#<?php echo esc_attr($instance_id); ?> .mcat-card-img {
     width: 100%;
     height: 180px;
     object-fit: cover;
     display: block;
 }
-#<?php echo $instance_id; ?> .mcat-card-body {
+#<?php echo esc_attr($instance_id); ?> .mcat-card-body {
     padding: 24px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
-#<?php echo $instance_id; ?> .mcat-card-title {
+#<?php echo esc_attr($instance_id); ?> .mcat-card-title {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-primary, #417AB3);
     margin: 0 0 12px 0;
     line-height: 1.3;
 }
-#<?php echo $instance_id; ?> .mcat-card-desc {
+#<?php echo esc_attr($instance_id); ?> .mcat-card-desc {
     font-size: 14px;
     color: #6b7280;
     line-height: 1.6;
     margin: 0 0 20px 0;
     flex-grow: 1;
 }
-#<?php echo $instance_id; ?> .mcat-tags {
+#<?php echo esc_attr($instance_id); ?> .mcat-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 16px;
 }
-#<?php echo $instance_id; ?> .mcat-tag {
+#<?php echo esc_attr($instance_id); ?> .mcat-tag {
     display: inline-block;
     font-size: 11px;
     font-weight: 600;
@@ -71,7 +71,7 @@ $cat_items = $categories['results'] ?? [];
     background: #f3f4f6;
     color: #6b7280;
 }
-#<?php echo $instance_id; ?> .mcat-btn {
+#<?php echo esc_attr($instance_id); ?> .mcat-btn {
     display: inline-flex;
     align-items: center;
     padding: 10px 24px;
@@ -84,15 +84,15 @@ $cat_items = $categories['results'] ?? [];
     transition: opacity 0.2s;
     margin-top: auto;
 }
-#<?php echo $instance_id; ?> .mcat-btn:hover {
+#<?php echo esc_attr($instance_id); ?> .mcat-btn:hover {
     opacity: 0.9;
 }
-#<?php echo $instance_id; ?> .mcat-btn svg {
+#<?php echo esc_attr($instance_id); ?> .mcat-btn svg {
     width: 16px;
     height: 16px;
     margin-left: 8px;
 }
-#<?php echo $instance_id; ?> .mcat-search {
+#<?php echo esc_attr($instance_id); ?> .mcat-search {
     border: 1px solid #d1d5db;
     border-radius: 8px;
     padding: 10px 16px 10px 40px;
@@ -103,12 +103,12 @@ $cat_items = $categories['results'] ?? [];
     background-repeat: no-repeat;
     background-position: left 12px center;
 }
-#<?php echo $instance_id; ?> .mcat-search:focus {
+#<?php echo esc_attr($instance_id); ?> .mcat-search:focus {
     outline: none;
     border-color: var(--color-primary, #417AB3);
     box-shadow: 0 0 0 2px rgba(65, 122, 179, 0.15);
 }
-#<?php echo $instance_id; ?> .mcat-no-results {
+#<?php echo esc_attr($instance_id); ?> .mcat-no-results {
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px 20px;
@@ -117,7 +117,7 @@ $cat_items = $categories['results'] ?? [];
 }
 </style>
 
-<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo $instance_id; ?>">
+<div class="tailwind-scope tw container mx-auto px-4" id="<?php echo esc_attr($instance_id); ?>">
     <div style="padding: 40px 0;">
 
         <!-- Header -->
@@ -127,18 +127,18 @@ $cat_items = $categories['results'] ?? [];
             </h2>
 
             <input type="text"
-                   id="<?php echo $instance_id; ?>-search"
+                   id="<?php echo esc_attr($instance_id); ?>-search"
                    class="mcat-search"
                    placeholder="Zoek een thema..."
                    aria-label="Zoek een thema">
         </div>
 
         <!-- Cards -->
-        <div class="mcat-grid" id="<?php echo $instance_id; ?>-grid">
+        <div class="mcat-grid" id="<?php echo esc_attr($instance_id); ?>-grid">
             <?php foreach ($cat_items as $category):
                 $desc = wp_kses_post($category['description']);
-                if (mb_strlen(strip_tags($desc)) > 120) {
-                    $desc = mb_substr(strip_tags($desc), 0, 120) . '...';
+                if (mb_strlen(wp_strip_all_tags($desc)) > 120) {
+                    $desc = mb_substr(wp_strip_all_tags($desc), 0, 120) . '...';
                 }
                 $tags = $category['catalogtag_set'] ?? [];
             ?>
@@ -184,11 +184,11 @@ $cat_items = $categories['results'] ?? [];
 <script>
 (function() {
     document.addEventListener("DOMContentLoaded", function() {
-        var root = document.getElementById("<?php echo $instance_id; ?>");
+        var root = document.getElementById("<?php echo esc_attr($instance_id); ?>");
         if (!root) return;
 
-        var searchInput = root.querySelector("#<?php echo $instance_id; ?>-search");
-        var grid = root.querySelector("#<?php echo $instance_id; ?>-grid");
+        var searchInput = root.querySelector("#<?php echo esc_attr($instance_id); ?>-search");
+        var grid = root.querySelector("#<?php echo esc_attr($instance_id); ?>-grid");
         var cards = root.querySelectorAll(".mcat-card");
 
         function applyFilter() {

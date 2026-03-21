@@ -18,6 +18,7 @@ delete_option('mentor_detail_page_id');
 
 // Verwijder alle transients
 global $wpdb;
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $wpdb->query(
     "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_mentor_%' OR option_name LIKE '_transient_timeout_mentor_%'"
 );

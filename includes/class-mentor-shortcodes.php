@@ -39,7 +39,7 @@ class MentorShortcodes
 
         $review_stats = $this->api->get_course_review_stats();
 
-        return display_course_template($courses, $this->api->get_api_url(), $review_stats);
+        return mentor_display_course_template($courses, $this->api->get_api_url(), $review_stats);
     }
 
     public function display_categories()
@@ -52,7 +52,7 @@ class MentorShortcodes
             return '<p>Geen categorieën gevonden.</p>';
         }
 
-        return display_category_template($categories, $this->api->get_api_url());
+        return mentor_display_category_template($categories, $this->api->get_api_url());
     }
 
     public function display_trainingtracks($atts = [])
@@ -71,7 +71,7 @@ class MentorShortcodes
 
         $tracks = $this->api->fetch_data($endpoint);
 
-        return display_trainingtracks_template($tracks, $this->api->get_api_url());
+        return mentor_display_trainingtracks_template($tracks, $this->api->get_api_url());
     }
 
     public function display_startdata($atts = [])
@@ -90,7 +90,7 @@ class MentorShortcodes
 
         $tracks = $this->api->fetch_data($endpoint);
 
-        return display_startdata_template($tracks, $this->api->get_api_url());
+        return mentor_display_startdata_template($tracks, $this->api->get_api_url());
     }
 
     public function display_reviews($atts = [])
@@ -111,7 +111,7 @@ class MentorShortcodes
             return '';
         }
 
-        return display_reviews_template($reviews, $aggregate, $module_id);
+        return mentor_display_reviews_template($reviews, $aggregate, $module_id);
     }
 
     public function display_cursus_detail($atts = [])
@@ -125,7 +125,7 @@ class MentorShortcodes
 
         $module_id = $atts['id'];
         if (empty($module_id)) {
-            $module_id = isset($_GET['cursus_id']) ? absint($_GET['cursus_id']) : '';
+            $module_id = isset($_GET['cursus_id']) ? absint($_GET['cursus_id']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public URL parameter
         }
 
         if (empty($module_id)) {
@@ -156,17 +156,17 @@ class MentorShortcodes
         $course['teachers'] = $teachers;
 
         $api_url = $this->api->get_api_url();
-        $output = display_cursus_detail_template($course, $tracks, $api_url);
+        $output = mentor_display_cursus_detail_template($course, $tracks, $api_url);
 
         if (!empty($track_items)) {
-            $output .= display_startdata_template($tracks, $api_url);
+            $output .= mentor_display_startdata_template($tracks, $api_url);
         }
 
         $review_data = $this->api->fetch_review_data('/reviews/', $module_id);
         $reviews = $review_data['results'] ?? $review_data;
         $aggregate = $this->api->fetch_review_data('/reviews/aggregate/', $module_id);
         if (!empty($reviews) && !empty($aggregate)) {
-            $output .= display_reviews_template($reviews, $aggregate, $module_id);
+            $output .= mentor_display_reviews_template($reviews, $aggregate, $module_id);
         }
 
         return $output;
@@ -182,7 +182,7 @@ class MentorShortcodes
 
         $module_id = $atts['id'];
         if (empty($module_id)) {
-            $module_id = isset($_GET['cursus_id']) ? absint($_GET['cursus_id']) : '';
+            $module_id = isset($_GET['cursus_id']) ? absint($_GET['cursus_id']) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public URL parameter
         }
 
         if (empty($module_id)) {
@@ -298,7 +298,7 @@ class MentorShortcodes
                 $rev = $rev_data['results'] ?? $rev_data;
                 $agg = $this->api->fetch_review_data('/reviews/aggregate/', $mid);
                 if (empty($rev) || empty($agg)) return '';
-                return display_reviews_template($rev, $agg, $mid);
+                return mentor_display_reviews_template($rev, $agg, $mid);
 
             default:
                 return '';

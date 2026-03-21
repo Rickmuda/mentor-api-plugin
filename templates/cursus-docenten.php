@@ -7,12 +7,12 @@ $instance_id = 'mentor-docenten-' . wp_unique_id();
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .mdt-grid {
+#<?php echo esc_attr($instance_id); ?> .mdt-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
 }
-#<?php echo $instance_id; ?> .mdt-card {
+#<?php echo esc_attr($instance_id); ?> .mdt-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
@@ -21,32 +21,32 @@ $instance_id = 'mentor-docenten-' . wp_unique_id();
     gap: 16px;
     align-items: flex-start;
 }
-#<?php echo $instance_id; ?> .mdt-photo {
+#<?php echo esc_attr($instance_id); ?> .mdt-photo {
     width: 64px;
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .mdt-name {
+#<?php echo esc_attr($instance_id); ?> .mdt-name {
     font-size: 16px;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
     margin: 0 0 4px 0;
 }
-#<?php echo $instance_id; ?> .mdt-bio {
+#<?php echo esc_attr($instance_id); ?> .mdt-bio {
     font-size: 13px;
     color: #6b7280;
     margin-top: 6px;
     line-height: 1.5;
 }
-#<?php echo $instance_id; ?> .mdt-themes {
+#<?php echo esc_attr($instance_id); ?> .mdt-themes {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
     margin-top: 8px;
 }
-#<?php echo $instance_id; ?> .mdt-theme {
+#<?php echo esc_attr($instance_id); ?> .mdt-theme {
     font-size: 11px;
     font-weight: 600;
     padding: 3px 8px;
@@ -56,7 +56,7 @@ $instance_id = 'mentor-docenten-' . wp_unique_id();
 }
 </style>
 
-<div id="<?php echo $instance_id; ?>">
+<div id="<?php echo esc_attr($instance_id); ?>">
     <div class="mdt-grid">
         <?php foreach ($teachers as $teacher):
             $photo = $teacher['profile_picture_lg'] ?? $teacher['profile_picture'] ?? '';
@@ -64,7 +64,7 @@ $instance_id = 'mentor-docenten-' . wp_unique_id();
                 $photo = rtrim($api_url, '/') . '/' . ltrim($photo, '/');
                 if (strpos($photo, '..') !== false) $photo = '';
             }
-            $bio = strip_tags($teacher['summary'] ?? '');
+            $bio = wp_strip_all_tags($teacher['summary'] ?? '');
             if (mb_strlen($bio) > 150) {
                 $bio = mb_substr($bio, 0, 150) . '...';
             }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Mentor Plugin
+ * Plugin Name: Mentor Integration
  * Plugin URI:  https://wordpress.org/plugins/mentor-plugin/
  * Description: Toon cursussen, categorieën en trainingsmomenten van Mentor op je WordPress website.
  * Version:     2.0.1

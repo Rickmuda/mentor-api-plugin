@@ -88,7 +88,7 @@ class MentorTheme
 
         $style .= $font_styles;
 
-        echo "<style id='mentor-theme-css'>\n{$style}\n</style>";
+        echo "<style id='mentor-theme-css'>\n{$style}\n</style>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS built from sanitize_text_field() values
     }
 
     private function build_font_face($font)

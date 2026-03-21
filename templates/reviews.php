@@ -14,7 +14,7 @@ if ($total < 1) {
 ?>
 
 <style>
-#<?php echo $instance_id; ?> .mr-header {
+#<?php echo esc_attr($instance_id); ?> .mr-header {
     display: flex;
     gap: 40px;
     align-items: flex-start;
@@ -25,44 +25,44 @@ if ($total < 1) {
     border: 1px solid #e5e7eb;
 }
 @media (max-width: 640px) {
-    #<?php echo $instance_id; ?> .mr-header {
+    #<?php echo esc_attr($instance_id); ?> .mr-header {
         flex-direction: column;
         gap: 24px;
     }
 }
-#<?php echo $instance_id; ?> .mr-score-block {
+#<?php echo esc_attr($instance_id); ?> .mr-score-block {
     text-align: center;
     min-width: 140px;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .mr-score-num {
+#<?php echo esc_attr($instance_id); ?> .mr-score-num {
     font-size: 3rem;
     font-weight: 800;
     color: var(--color-body-text, #1f2937);
     line-height: 1;
     margin-bottom: 8px;
 }
-#<?php echo $instance_id; ?> .mr-score-stars {
+#<?php echo esc_attr($instance_id); ?> .mr-score-stars {
     display: inline-flex;
     gap: 2px;
     margin-bottom: 6px;
 }
-#<?php echo $instance_id; ?> .mr-score-count {
+#<?php echo esc_attr($instance_id); ?> .mr-score-count {
     font-size: 13px;
     color: #9ca3af;
 }
-#<?php echo $instance_id; ?> .mr-distribution {
+#<?php echo esc_attr($instance_id); ?> .mr-distribution {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
-#<?php echo $instance_id; ?> .mr-dist-row {
+#<?php echo esc_attr($instance_id); ?> .mr-dist-row {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-#<?php echo $instance_id; ?> .mr-dist-label {
+#<?php echo esc_attr($instance_id); ?> .mr-dist-label {
     font-size: 13px;
     font-weight: 600;
     color: #6b7280;
@@ -70,32 +70,32 @@ if ($total < 1) {
     text-align: right;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .mr-dist-bar-bg {
+#<?php echo esc_attr($instance_id); ?> .mr-dist-bar-bg {
     flex-grow: 1;
     height: 10px;
     background: #f3f4f6;
     border-radius: 5px;
     overflow: hidden;
 }
-#<?php echo $instance_id; ?> .mr-dist-bar {
+#<?php echo esc_attr($instance_id); ?> .mr-dist-bar {
     height: 100%;
     background: #f59e0b;
     border-radius: 5px;
     transition: width 0.3s;
 }
-#<?php echo $instance_id; ?> .mr-dist-count {
+#<?php echo esc_attr($instance_id); ?> .mr-dist-count {
     font-size: 13px;
     color: #9ca3af;
     width: 28px;
     flex-shrink: 0;
 }
-#<?php echo $instance_id; ?> .mr-categories {
+#<?php echo esc_attr($instance_id); ?> .mr-categories {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 32px;
 }
-#<?php echo $instance_id; ?> .mr-cat {
+#<?php echo esc_attr($instance_id); ?> .mr-cat {
     background: #f9fafb;
     border-radius: 10px;
     padding: 10px 16px;
@@ -103,70 +103,70 @@ if ($total < 1) {
     align-items: center;
     gap: 8px;
 }
-#<?php echo $instance_id; ?> .mr-cat-name {
+#<?php echo esc_attr($instance_id); ?> .mr-cat-name {
     font-size: 13px;
     color: #6b7280;
 }
-#<?php echo $instance_id; ?> .mr-cat-score {
+#<?php echo esc_attr($instance_id); ?> .mr-cat-score {
     font-size: 14px;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
 }
-#<?php echo $instance_id; ?> .mr-grid {
+#<?php echo esc_attr($instance_id); ?> .mr-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     margin-bottom: 24px;
 }
 @media (max-width: 768px) {
-    #<?php echo $instance_id; ?> .mr-grid {
+    #<?php echo esc_attr($instance_id); ?> .mr-grid {
         grid-template-columns: 1fr;
     }
 }
-#<?php echo $instance_id; ?> .mr-card {
+#<?php echo esc_attr($instance_id); ?> .mr-card {
     background: #fff;
     border-radius: 16px;
     border: 1px solid #e5e7eb;
     padding: 24px;
 }
-#<?php echo $instance_id; ?> .mr-card-header {
+#<?php echo esc_attr($instance_id); ?> .mr-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
-#<?php echo $instance_id; ?> .mr-card-name {
+#<?php echo esc_attr($instance_id); ?> .mr-card-name {
     font-size: 15px;
     font-weight: 700;
     color: var(--color-body-text, #1f2937);
 }
-#<?php echo $instance_id; ?> .mr-card-date {
+#<?php echo esc_attr($instance_id); ?> .mr-card-date {
     font-size: 12px;
     color: #9ca3af;
 }
-#<?php echo $instance_id; ?> .mr-card-stars {
+#<?php echo esc_attr($instance_id); ?> .mr-card-stars {
     display: inline-flex;
     gap: 2px;
     margin-bottom: 10px;
 }
-#<?php echo $instance_id; ?> .mr-card-title {
+#<?php echo esc_attr($instance_id); ?> .mr-card-title {
     font-size: 14px;
     font-weight: 600;
     color: var(--color-body-text, #1f2937);
     margin-bottom: 6px;
 }
-#<?php echo $instance_id; ?> .mr-card-desc {
+#<?php echo esc_attr($instance_id); ?> .mr-card-desc {
     font-size: 14px;
     color: #6b7280;
     line-height: 1.6;
 }
-#<?php echo $instance_id; ?> .mr-card-module {
+#<?php echo esc_attr($instance_id); ?> .mr-card-module {
     font-size: 12px;
     color: var(--color-primary, #417AB3);
     font-weight: 600;
     margin-top: 10px;
 }
-#<?php echo $instance_id; ?> .mr-btn-show-all {
+#<?php echo esc_attr($instance_id); ?> .mr-btn-show-all {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -180,12 +180,12 @@ if ($total < 1) {
     cursor: pointer;
     transition: opacity 0.2s;
 }
-#<?php echo $instance_id; ?> .mr-btn-show-all:hover {
+#<?php echo esc_attr($instance_id); ?> .mr-btn-show-all:hover {
     opacity: 0.9;
 }
 </style>
 
-<div id="<?php echo $instance_id; ?>">
+<div id="<?php echo esc_attr($instance_id); ?>">
     <div style="padding: 40px 0;">
 
         <h2 style="font-size: 1.75rem; font-weight: 800; color: var(--color-primary, #417AB3); margin: 0 0 24px 0; line-height: 1.2;">
@@ -196,8 +196,8 @@ if ($total < 1) {
         <div class="mr-header">
             <div class="mr-score-block">
                 <div class="mr-score-num"><?php echo number_format($avg, 1, ',', ''); ?></div>
-                <div class="mr-score-stars"><?php echo mentor_render_stars($avg, 22); ?></div>
-                <div class="mr-score-count"><?php echo $total; ?> review<?php echo $total !== 1 ? 's' : ''; ?></div>
+                <div class="mr-score-stars"><?php echo wp_kses_post(mentor_render_stars($avg, 22)); ?></div>
+                <div class="mr-score-count"><?php echo esc_html($total); ?> review<?php echo $total !== 1 ? 's' : ''; ?></div>
             </div>
             <div class="mr-distribution">
                 <?php for ($i = 5; $i >= 1; $i--):
@@ -224,7 +224,7 @@ if ($total < 1) {
             <div class="mr-cat">
                 <span class="mr-cat-name"><?php echo esc_html($cat_name); ?></span>
                 <span class="mr-cat-score"><?php echo number_format((float) $cat_avg, 1, ',', ''); ?></span>
-                <?php echo mentor_render_stars((float) $cat_avg, 14); ?>
+                <?php echo wp_kses_post(mentor_render_stars((float) $cat_avg, 14)); ?>
             </div>
             <?php endforeach; ?>
         </div>
@@ -237,7 +237,7 @@ if ($total < 1) {
                 $hidden = $review_index >= $initial_visible ? 'mr-extra' : '';
                 $review_index++;
             ?>
-            <div class="mr-card <?php echo $hidden; ?>"
+            <div class="mr-card <?php echo esc_attr($hidden); ?>"
                  <?php if ($hidden): ?>style="display:none;"<?php endif; ?>>
                 <div class="mr-card-header">
                     <span class="mr-card-name"><?php echo esc_html($review['display_name'] ?? 'Anoniem'); ?></span>
@@ -246,7 +246,7 @@ if ($total < 1) {
                         if ($date) echo esc_html(date_i18n('j F Y', strtotime($date)));
                     ?></span>
                 </div>
-                <div class="mr-card-stars"><?php echo mentor_render_stars($review['overall_rating'] ?? 0); ?></div>
+                <div class="mr-card-stars"><?php echo wp_kses_post(mentor_render_stars($review['overall_rating'] ?? 0)); ?></div>
                 <?php if (!empty($review['title'])): ?>
                     <div class="mr-card-title"><?php echo esc_html($review['title']); ?></div>
                 <?php endif; ?>
@@ -261,8 +261,8 @@ if ($total < 1) {
         </div>
 
         <?php if ($review_index > $initial_visible): ?>
-        <div style="text-align: center;" id="<?php echo $instance_id; ?>-show-all-wrap">
-            <button id="<?php echo $instance_id; ?>-show-all" class="mr-btn-show-all" type="button">
+        <div style="text-align: center;" id="<?php echo esc_attr($instance_id); ?>-show-all-wrap">
+            <button id="<?php echo esc_attr($instance_id); ?>-show-all" class="mr-btn-show-all" type="button">
                 Toon alle reviews
                 <svg style="width: 16px; height: 16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -278,10 +278,10 @@ if ($total < 1) {
 <script>
 (function() {
     document.addEventListener("DOMContentLoaded", function() {
-        var root = document.getElementById("<?php echo $instance_id; ?>");
+        var root = document.getElementById("<?php echo esc_attr($instance_id); ?>");
         if (!root) return;
-        var btn = root.querySelector("#<?php echo $instance_id; ?>-show-all");
-        var wrap = root.querySelector("#<?php echo $instance_id; ?>-show-all-wrap");
+        var btn = root.querySelector("#<?php echo esc_attr($instance_id); ?>-show-all");
+        var wrap = root.querySelector("#<?php echo esc_attr($instance_id); ?>-show-all-wrap");
         if (btn) {
             btn.addEventListener("click", function() {
                 root.querySelectorAll(".mr-extra").forEach(function(el) {

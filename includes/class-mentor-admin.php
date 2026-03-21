@@ -75,9 +75,9 @@ class MentorAdmin
             <hr>
             <h2>Cache</h2>
             <p>
-                API-responses worden <?php echo $cache_minutes; ?> minuten gecached.
+                API-responses worden <?php echo esc_html($cache_minutes); ?> minuten gecached.
                 <?php if ($last_refresh): ?>
-                    <br>Laatst ververst: <strong><?php echo date_i18n('j F Y, H:i', $last_refresh); ?></strong>
+                    <br>Laatst ververst: <strong><?php echo esc_html(date_i18n('j F Y, H:i', $last_refresh)); ?></strong>
                 <?php endif; ?>
             </p>
             <form method="post">
@@ -85,7 +85,7 @@ class MentorAdmin
                 <input type="hidden" name="mentor_clear_cache" value="1">
                 <?php submit_button('Cache legen', 'secondary', 'submit-clear-cache', false); ?>
             </form>
-            <?php if (!empty($_GET['cache_cleared'])): ?>
+            <?php if (isset($_GET['cache_cleared']) && sanitize_text_field(wp_unslash($_GET['cache_cleared']))): // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
                 <div class="notice notice-success is-dismissible"><p>Cache is geleegd.</p></div>
             <?php endif; ?>
         </div> <?php
@@ -144,7 +144,7 @@ class MentorAdmin
         register_setting('wp_mentor_courses_categories', 'mentor_courses_api_url', [
             'sanitize_callback' => 'esc_url_raw',
         ]);
-        register_setting('wp_mentor_courses_categories', 'mentor_theme_enabled');
+        register_setting('wp_mentor_courses_categories', 'mentor_theme_enabled', ['sanitize_callback' => 'absint']);
         register_setting('wp_mentor_courses_categories', 'mentor_cache_duration', [
             'type' => 'integer',
             'default' => 15,
@@ -159,7 +159,7 @@ class MentorAdmin
         echo '<input type="checkbox"
              name="' . esc_attr($option_name) . '"
              id="' . esc_attr($option_name) . '"
-             value="1" ' . $checked . ' />';
+             value="1" ' . $checked . ' />'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
     }
 
     public function field_callback($arguments)
@@ -177,13 +177,14 @@ class MentorAdmin
     {
         if (
             empty($_POST['mentor_clear_cache']) ||
-            !wp_verify_nonce($_POST['mentor_clear_cache_nonce'] ?? '', 'mentor_clear_cache') ||
+            !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['mentor_clear_cache_nonce'] ?? '')), 'mentor_clear_cache') ||
             !current_user_can('manage_options')
         ) {
             return;
         }
 
         global $wpdb;
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
         $wpdb->query(
             "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_mentor_%' OR option_name LIKE '_transient_timeout_mentor_%'"
         );
@@ -205,7 +206,7 @@ class MentorAdmin
             wp_send_json_error('Geen toegang', 403);
         }
 
-        $shortcode = sanitize_text_field($_POST['shortcode'] ?? '');
+        $shortcode = sanitize_text_field(wp_unslash($_POST['shortcode'] ?? ''));
         if (empty($shortcode)) {
             wp_send_json_error('Geen shortcode opgegeven');
         }
@@ -213,7 +214,8 @@ class MentorAdmin
         $theme = new MentorTheme($this->api);
 
         ob_start();
-        echo '<link rel="stylesheet" href="' . esc_url(MENTOR_PLUGIN_URL . 'assets/css/mentor-plugin.css') . '?ver=' . MENTOR_PLUGIN_VERSION . '">';
+        wp_enqueue_style('mentor_plugin_styles', MENTOR_PLUGIN_URL . 'assets/css/mentor-plugin.css', [], MENTOR_PLUGIN_VERSION);
+        wp_print_styles('mentor_plugin_styles');
         $theme->inject_theme_css();
         $html = do_shortcode($shortcode);
         $styles = ob_get_clean();
@@ -356,7 +358,7 @@ class MentorAdmin
                 moduleSelect.innerHTML = '<option value="">Laden...</option>';
 
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '<?php echo admin_url('admin-ajax.php'); ?>');
+                xhr.open('POST', '<?php echo esc_url(admin_url('admin-ajax.php')); ?>');
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.onload = function() {
                     var resp = JSON.parse(xhr.responseText);
@@ -372,7 +374,7 @@ class MentorAdmin
                         moduleSelect.innerHTML = '<option value="">Geen cursussen gevonden</option>';
                     }
                 };
-                xhr.send('action=mentor_get_modules&_ajax_nonce=<?php echo wp_create_nonce('mentor_get_modules'); ?>');
+                xhr.send('action=mentor_get_modules&_ajax_nonce=<?php echo esc_attr(wp_create_nonce('mentor_get_modules')); ?>');
             }
 
             function buildShortcode() {
@@ -403,7 +405,7 @@ class MentorAdmin
                 previewWrap.style.display = '';
 
                 var pxhr = new XMLHttpRequest();
-                pxhr.open('POST', '<?php echo admin_url('admin-ajax.php'); ?>');
+                pxhr.open('POST', '<?php echo esc_url(admin_url('admin-ajax.php')); ?>');
                 pxhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 pxhr.onload = function() {
                     var resp = JSON.parse(pxhr.responseText);
@@ -416,7 +418,7 @@ class MentorAdmin
                 pxhr.onerror = function() {
                     previewDiv.innerHTML = '<em>Preview kon niet geladen worden.</em>';
                 };
-                pxhr.send('action=mentor_preview_shortcode&shortcode=' + encodeURIComponent(shortcode) + '&_ajax_nonce=<?php echo wp_create_nonce('mentor_preview_shortcode'); ?>');
+                pxhr.send('action=mentor_preview_shortcode&shortcode=' + encodeURIComponent(shortcode) + '&_ajax_nonce=<?php echo esc_attr(wp_create_nonce('mentor_preview_shortcode')); ?>');
             }
 
             typeSelect.addEventListener('change', function() {

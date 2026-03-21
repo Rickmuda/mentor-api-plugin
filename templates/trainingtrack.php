@@ -2,11 +2,14 @@
 defined('ABSPATH') or die('No script kiddies please!');
 $items = $tracks['results'] ?? $tracks;
 ?>
-<!--<link rel="stylesheet" id="finalsix-css" href="https://use.typekit.net/vpf7cpc.css?ver=6.8.3" media="all">-->
-<!--<link rel="preconnect" href="https://fonts.googleapis.com">-->
-<!--<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>-->
-<!--<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">-->
-<!--<link href="https://fonts.googleapis.com/css?family=Calibri:400,700,400italic,700italic" rel="stylesheet">-->
+<?php
+if (!wp_style_is('mentor-google-fonts-pt-sans', 'enqueued')) {
+    wp_enqueue_style('mentor-google-fonts-pt-sans', 'https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap', array(), null);
+}
+if (!wp_style_is('mentor-google-fonts-calibri', 'enqueued')) {
+    wp_enqueue_style('mentor-google-fonts-calibri', 'https://fonts.googleapis.com/css?family=Calibri:400,700,400italic,700italic', array(), null);
+}
+?>
 <style>
     .tailwind-scope .pt-calibri-regular {
         font-family: "Calibri", sans-serif !important;
@@ -76,7 +79,7 @@ $items = $tracks['results'] ?? $tracks;
             </h2>
 
             <p class="mt-3 text-[#000] max-w-2xl mx-auto text-base pt-sans-regular">
-                Kies uit verschillende startdata en locaties voor de training <?= esc_html($items[0]['module_title']) ?>
+                Kies uit verschillende startdata en locaties voor de training <?php echo esc_html($items[0]['module_title']) ?>
             </p>
         </div>
 
@@ -147,7 +150,7 @@ $items = $tracks['results'] ?? $tracks;
 
                     <!-- Bekijk trainingsdagen -->
                     <button class="open-modal-btn w-full text-[#C83461] hover:text-[#9f264b] pt-sans-bold is-text-link rounded-xl py-3 mb-6 flex items-center justify-center transition cursor-pointer"
-                            data-modal-id="<?php echo $modal_id; ?>">
+                            data-modal-id="<?php echo esc_attr($modal_id); ?>">
 
 <!--                        <svg xmlns="http://www.w3.org/2000/svg"-->
 <!--                             class="h-5 w-5 mr-2 text-[#C83461]" fill="none"-->
@@ -175,9 +178,9 @@ $items = $tracks['results'] ?? $tracks;
 
 
                 <!-- MODAL -->
-                <div id="<?php echo $modal_id; ?>"
+                <div id="<?php echo esc_attr($modal_id); ?>"
                      class="modal-backdrop hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                     data-modal-id="<?php echo $modal_id; ?>">
+                     data-modal-id="<?php echo esc_attr($modal_id); ?>">
 
                     <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-[80vh] overflow-y-auto"
                             onclick="event.stopPropagation()">
@@ -185,7 +188,7 @@ $items = $tracks['results'] ?? $tracks;
                         <!-- Sluitknop -->
                         <button
                                 class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl"
-                                onclick="document.getElementById('<?php echo $modal_id; ?>').classList.add('hidden')">
+                                onclick="document.getElementById('<?php echo esc_attr($modal_id); ?>').classList.add('hidden')">
                             ✕
                         </button>
 
@@ -234,13 +237,13 @@ $items = $tracks['results'] ?? $tracks;
                         </ul>
                         <!--
                         <button
-                                onclick="document.getElementById('<?php echo $modal_id; ?>').classList.add('hidden')"
+                                onclick="document.getElementById('<?php echo esc_attr($modal_id); ?>').classList.add('hidden')"
                                 class="mt-6 pt-sans-bold-normal w-full py-3 text-center rounded-full bg-gray-100 hover:bg-gray-200 transition text-sm">
                             Sluiten
                         </button>
                         -->
                         <button
-                                onclick="document.getElementById('<?php echo $modal_id; ?>').classList.add('hidden')"
+                                onclick="document.getElementById('<?php echo esc_attr($modal_id); ?>').classList.add('hidden')"
                                 class="mt-6 pt-sans-bold-normal w-full py-3 text-white text-center rounded-full is-text-link cursor-pointer bg-[linear-gradient(90deg,rgb(239,126,47)_0%,rgb(200,52,97)_100%)] transition text-base">
                             Sluiten
                         </button>
