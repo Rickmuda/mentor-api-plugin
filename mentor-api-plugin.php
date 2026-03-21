@@ -1,14 +1,14 @@
 <?php
 /**
  * Plugin Name: Mentor Integration
- * Plugin URI:  https://wordpress.org/plugins/mentor-plugin/
+ * Plugin URI:  https://wordpress.org/plugins/mentor-integration/
  * Description: Toon cursussen, categorieën en trainingsmomenten van Mentor op je WordPress website.
  * Version:     2.0.1
  * Author:      Mark Vergunst
  * Author URI:  https://poweredbymentor.nl
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: mentor-plugin
+ * Text Domain: mentor-integration
  * Requires at least: 5.6
  * Requires PHP:      7.4
  */
