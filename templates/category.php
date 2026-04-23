@@ -166,7 +166,7 @@ $cat_items = $categories['results'] ?? [];
                             <div class="mcat-card-desc"><?php echo wp_kses_post($desc); ?></div>
                         <?php endif; ?>
 
-                        <a href="<?php echo esc_url($api_url); ?>/theme/<?php echo intval($category['id']); ?>/"
+                        <a href="<?php echo esc_url($api_url); ?>/theme/<?php echo esc_attr(intval($category['id'])); ?>/"
                            class="mcat-btn">
                             Bekijk trainingen
                             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

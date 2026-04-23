@@ -15,8 +15,12 @@ Ga naar **Mentor Plugin > Instellingen** en vul in:
 | Instelling | Beschrijving |
 |---|---|
 | **API URL** | De basis-URL van je Mentor omgeving |
+| **Knoptekst** | Label van de "Meer info"-knop op cursuskaartjes (leeg = "Meer info") |
+| **Prijzen verbergen op overzichten** | Verbergt de prijs op de cursuslijst-blocks/shortcodes |
 | **Klantthema overnemen** | Kleuren en lettertype uit Mentor overnemen |
 | **Cache duur** | Hoe lang API-responses gecached worden (standaard 15 min) |
+
+Onder **Mentor Plugin > Cursuslinks** kun je per cursus een eigen "Meer info"-URL instellen, bijvoorbeeld om door te linken naar je eigen trainingspagina in plaats van naar Mentor.
 
 ## Shortcodes
 
@@ -47,20 +51,39 @@ Ga naar **Mentor Plugin > Instellingen** en vul in:
 
 De losse veld-shortcodes ondersteunen `id=X` als attribuut, of lezen `?cursus_id=X` uit de URL.
 
+## Gutenberg blocks
+
+Alle shortcodes zijn ook beschikbaar als Gutenberg-blocks onder de categorie **Mentor** in de block-inserter. Ze renderen via `ServerSideRender` dus je ziet live preview in de editor.
+
+| Block | Wrapt shortcode | Attributen |
+|---|---|---|
+| Mentor: Cursussen | `[mentor_courses]` | — |
+| Mentor: Categorieën | `[mentor_categories]` | — |
+| Mentor: Trainingstracks | `[display_coursegroup_wc]` | id |
+| Mentor: Startdata | `[mentor_startdata]` | id |
+| Mentor: Reviews | `[mentor_reviews]` | id |
+| Mentor: Cursusdetail | `[mentor_cursus_detail]` | id |
+| Mentor: Cursusveld | `[mentor_cursus_*]` | id + `field` (titel / prijs / omschrijving / afbeelding / thema / docenten / inschrijven / reviews) |
+
+Het **Cursusveld**-block vervangt de losse `[mentor_cursus_titel]`, `[mentor_cursus_prijs]` etc.: één block met een dropdown voor het gewenste veld.
+
+De ID-velden zijn optioneel — leeg laten leest `?cursus_id=X` uit de URL (handig voor een universele detailpagina).
+
 ## Shortcode Builder
 
 Ga naar **Mentor Plugin > Shortcode Builder** om shortcodes visueel samen te stellen met live preview.
 
 ## Architectuur
 
-De plugin is opgebouwd uit vier klassen:
+De plugin is opgebouwd uit vijf klassen:
 
 | Klasse | Bestand | Verantwoordelijkheid |
 |---|---|---|
 | `MentorApi` | `includes/class-mentor-api.php` | API calls, caching, review data |
 | `MentorShortcodes` | `includes/class-mentor-shortcodes.php` | Alle shortcode handlers |
 | `MentorTheme` | `includes/class-mentor-theme.php` | Klantthema (kleuren, fonts) |
-| `MentorAdmin` | `includes/class-mentor-admin.php` | Instellingen, shortcode builder, AJAX |
+| `MentorAdmin` | `includes/class-mentor-admin.php` | Instellingen, shortcode builder, cursuslinks, AJAX |
+| `MentorBlocks` | `includes/class-mentor-blocks.php` | Gutenberg-blocks (wrappers rond de shortcodes) |
 
 Het hoofdbestand (`mentor-api-plugin.php`) laadt de klassen en verbindt ze.
 
@@ -75,7 +98,8 @@ mentor-plugin/
 │   ├── class-mentor-shortcodes.php # Shortcode handlers
 │   ├── class-mentor-theme.php     # Klantthema injectie
 │   ├── class-mentor-admin.php     # Admin pagina's + AJAX
-│   └── template-functions.php     # Template loaders + star helper
+│   ├── class-mentor-blocks.php    # Gutenberg-blocks registratie
+│   └── template-functions.php     # Template loaders + helpers
 ├── templates/
 │   ├── course.php                 # Cursuskaartjes
 │   ├── course-list.php            # Cursuslijst (alternatief)
@@ -86,9 +110,11 @@ mentor-plugin/
 │   ├── trainingtrack.php          # Trainingsmomenten met modal
 │   └── reviews.php                # Reviews en beoordelingen
 ├── assets/
-│   └── css/
-│       ├── mentor-plugin.css      # Gecompileerde Tailwind CSS
-│       └── styles.css             # Tailwind bron
+│   ├── css/
+│   │   ├── mentor-plugin.css      # Gecompileerde Tailwind CSS
+│   │   └── styles.css             # Tailwind bron
+│   └── js/
+│       └── blocks.js              # Block-registratie (vanilla JS, geen build)
 ├── tailwind.config.js
 └── package.json
 ```

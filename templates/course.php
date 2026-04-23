@@ -225,22 +225,27 @@ sort($subjects);
                         ?>
                         <div class="mc-review-badge">
                             <?php echo wp_kses_post(mentor_render_stars($rs['average'], 14)); ?>
-                            <strong><?php echo number_format($rs['average'], 1, ',', ''); ?></strong>
+                            <strong><?php echo esc_html(number_format($rs['average'], 1, ',', '')); ?></strong>
                             <span>(<?php echo esc_html($rs['count']); ?>)</span>
                         </div>
                         <?php endif; ?>
 
                         <div class="mc-card-footer">
-                            <span class="mc-price">&euro;<?php echo esc_html($course['price']); ?></span>
-
-                            <?php if (!empty($course['link_to_mentor'])) :
-                                $course_link = $course['link_to_mentor'];
-                                if (!empty($detail_page_url)) {
-                                    $course_link = add_query_arg('cursus_id', $course['id'], $detail_page_url);
-                                }
+                            <?php
+                            $hide_prices = (int) get_option('mentor_hide_prices', 0);
+                            $cta_label = trim((string) get_option('mentor_cta_label', ''));
+                            if ($cta_label === '') { $cta_label = 'Meer info'; }
                             ?>
+                            <?php if (!$hide_prices) :
+                                $vat_label = !empty($course['show_prices_including_vat']) ? 'incl. BTW' : 'excl. BTW';
+                                $display_price = $course['total_price'] ?? $course['price'] ?? '';
+                            ?>
+                                <span class="mc-price">&euro;<?php echo esc_html($display_price); ?> <small style="font-size: 0.7em; font-weight: 400; color: #6b7280;"><?php echo esc_html($vat_label); ?></small></span>
+                            <?php endif; ?>
+
+                            <?php $course_link = mentor_resolve_course_link($course); if (!empty($course_link)) : ?>
                                 <a href="<?php echo esc_url($course_link); ?>" class="mc-btn">
-                                    Meer info
+                                    <?php echo esc_html($cta_label); ?>
                                     <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                                     </svg>

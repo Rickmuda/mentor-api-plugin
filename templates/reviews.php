@@ -195,9 +195,9 @@ if ($total < 1) {
         <!-- Aggregate header -->
         <div class="mr-header">
             <div class="mr-score-block">
-                <div class="mr-score-num"><?php echo number_format($avg, 1, ',', ''); ?></div>
+                <div class="mr-score-num"><?php echo esc_html(number_format($avg, 1, ',', '')); ?></div>
                 <div class="mr-score-stars"><?php echo wp_kses_post(mentor_render_stars($avg, 22)); ?></div>
-                <div class="mr-score-count"><?php echo esc_html($total); ?> review<?php echo $total !== 1 ? 's' : ''; ?></div>
+                <div class="mr-score-count"><?php echo esc_html($total); ?> review<?php echo esc_html($total !== 1 ? 's' : ''); ?></div>
             </div>
             <div class="mr-distribution">
                 <?php for ($i = 5; $i >= 1; $i--):
@@ -223,7 +223,7 @@ if ($total < 1) {
             ?>
             <div class="mr-cat">
                 <span class="mr-cat-name"><?php echo esc_html($cat_name); ?></span>
-                <span class="mr-cat-score"><?php echo number_format((float) $cat_avg, 1, ',', ''); ?></span>
+                <span class="mr-cat-score"><?php echo esc_html(number_format((float) $cat_avg, 1, ',', '')); ?></span>
                 <?php echo wp_kses_post(mentor_render_stars((float) $cat_avg, 14)); ?>
             </div>
             <?php endforeach; ?>

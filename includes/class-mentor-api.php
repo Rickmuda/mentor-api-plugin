@@ -4,10 +4,14 @@ defined('ABSPATH') or die('No script kiddies please!');
 class MentorApi
 {
     private $api_url;
+    private $mentor_domain;
+    private $public_url;
 
     public function __construct()
     {
         $this->api_url = get_option('mentor_courses_api_url');
+        $this->mentor_domain = get_option('mentor_domain', '');
+        $this->public_url = get_option('mentor_public_url', '');
     }
 
     public function get_api_url()
@@ -19,7 +23,11 @@ class MentorApi
     {
         if (empty($this->api_url)) {
             if (current_user_can('manage_options')) {
-                return '<p style="color:#dc2626;"><strong>Mentor Plugin:</strong> Stel eerst de API URL in via <a href="' . admin_url('admin.php?page=mentor_plugin') . '">Mentor Plugin → Instellingen</a>.</p>';
+                return '<p style="color:#dc2626;"><strong>Mentor Plugin:</strong> '
+                    . esc_html__('Stel eerst de API URL in via ', 'mentor-integration')
+                    . '<a href="' . esc_url(admin_url('admin.php?page=mentor_plugin')) . '">'
+                    . esc_html__('Mentor Plugin → Instellingen', 'mentor-integration')
+                    . '</a>.</p>';
             }
             return '';
         }
@@ -35,15 +43,25 @@ class MentorApi
             return $cached;
         }
 
-        $response = wp_remote_get($this->api_url . $endpoint, [
-            'timeout' => 30,
-        ]);
+        $args = ['timeout' => 30];
+        if (!empty($this->mentor_domain)) {
+            $args['headers'] = ['X-Mentor-Domain' => $this->mentor_domain];
+        }
+
+        $response = wp_remote_get($this->api_url . $endpoint, $args);
 
         if (is_wp_error($response)) {
             return [];
         }
 
         $body = wp_remote_retrieve_body($response);
+        if (!empty($this->public_url) && !empty($this->api_url) && $this->public_url !== $this->api_url) {
+            $body = str_replace(
+                rtrim($this->api_url, '/'),
+                rtrim($this->public_url, '/'),
+                $body
+            );
+        }
         $data = json_decode($body, true);
 
         if (!is_array($data)) {
