@@ -2,6 +2,25 @@
 // Prevent direct access
 defined('ABSPATH') or die('No script kiddies please!');
 
+function mentor_get_cta_label() {
+    $label = trim((string) get_option('mentor_cta_label', ''));
+    return $label !== '' ? $label : 'Meer info';
+}
+
+function mentor_prices_hidden() {
+    return (bool) (int) get_option('mentor_hide_prices', 0);
+}
+
+function mentor_get_course_price($course) {
+    if (mentor_prices_hidden()) {
+        return null;
+    }
+    return [
+        'display' => $course['total_price'] ?? $course['price'] ?? '',
+        'vat_label' => !empty($course['show_prices_including_vat']) ? 'incl. BTW' : 'excl. BTW',
+    ];
+}
+
 function mentor_resolve_course_link($course) {
     $course_id = (int) ($course['id'] ?? 0);
 

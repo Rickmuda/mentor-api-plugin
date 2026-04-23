@@ -10,6 +10,7 @@ class MentorTheme
         $this->api = $api;
 
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        add_action('enqueue_block_editor_assets', array($this, 'enqueue_styles'));
     }
 
     public function enqueue_styles()
@@ -152,7 +153,11 @@ class MentorTheme
         if (preg_match('/^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*(?:\d+|\d*\.\d+)\s*)?\)$/', $value)) {
             return $value;
         }
-        if (preg_match('/^hsla?\(\s*\d+(?:\.\d+)?\s*,\s*\d+(?:\.\d+)?%\s*,\s*\d+(?:\.\d+)?%\s*(,\s*(?:\d+|\d*\.\d+)\s*)?\)$/', $value)) {
+        $num = '\d+(?:\.\d+)?';
+        $pct = $num . '%';
+        $alpha = '(?:' . $num . '|' . $pct . ')';
+        if (preg_match('/^hsla?\(\s*' . $num . '\s*,\s*' . $pct . '\s*,\s*' . $pct . '\s*(?:,\s*' . $alpha . '\s*)?\)$/', $value)
+            || preg_match('/^hsla?\(\s*' . $num . '\s+' . $pct . '\s+' . $pct . '\s*(?:\/\s*' . $alpha . '\s*)?\)$/', $value)) {
             return $value;
         }
         if (preg_match('/^[a-zA-Z]+$/', $value)) {

@@ -20,19 +20,11 @@ defined('ABSPATH') or die('No script kiddies please!');
                         </p>
                     </div>
                     <div class="mt-4">
-                        <?php
-                        $hide_prices = (int) get_option('mentor_hide_prices', 0);
-                        $cta_label = trim((string) get_option('mentor_cta_label', ''));
-                        if ($cta_label === '') { $cta_label = 'Meer info'; }
-                        ?>
-                        <?php if (!$hide_prices) :
-                            $vat_label = !empty($course['show_prices_including_vat']) ? 'incl. BTW' : 'excl. BTW';
-                            $display_price = $course['total_price'] ?? $course['price'] ?? '';
-                        ?>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><strong>&euro;<?php echo esc_html($display_price); ?></strong> <span class="text-xs text-gray-500"><?php echo esc_html($vat_label); ?></span></span>
+                        <?php if ($price = mentor_get_course_price($course)) : ?>
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><strong>&euro;<?php echo esc_html($price['display']); ?></strong> <span class="text-xs text-gray-500"><?php echo esc_html($price['vat_label']); ?></span></span>
                         <?php endif; ?>
                         <?php $course_link = mentor_resolve_course_link($course); if (!empty($course_link)) : ?>
-                            <a href="<?php echo esc_url($course_link); ?>" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><?php echo esc_html($cta_label); ?></a>
+                            <a href="<?php echo esc_url($course_link); ?>" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><?php echo esc_html(mentor_get_cta_label()); ?></a>
                         <?php endif; ?>
                     </div>
                 </div>
