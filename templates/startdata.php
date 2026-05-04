@@ -300,7 +300,7 @@ $initial_visible = 6;
                 <div class="sd-card startdata-card <?php echo esc_attr($hidden_class); ?>"
                      <?php if ($hidden_class): ?>style="display:none;"<?php endif; ?>
                      data-location="<?php echo esc_attr($location); ?>"
-                     data-available="<?php echo $is_available ? '1' : '0'; ?>">
+                     data-available="<?php echo esc_attr($is_available ? '1' : '0'); ?>">
 
                     <div class="sd-date"><?php echo esc_html($start_display); ?></div>
 
@@ -312,7 +312,7 @@ $initial_visible = 6;
                         <div>
                             <div class="sd-meta-label">Beschikbaarheid</div>
                             <div class="sd-meta-value sd-meta-value-avail">
-                                <span class="sd-avail-dot" style="background: <?php echo $is_available ? '#22c55e' : '#ef4444'; ?>;"></span><?php echo esc_html($avail_text); ?>
+                                <span class="sd-avail-dot" style="background: <?php echo esc_attr($is_available ? '#22c55e' : '#ef4444'); ?>;"></span><?php echo esc_html($avail_text); ?>
                             </div>
                         </div>
                     </div>

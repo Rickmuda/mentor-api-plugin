@@ -10,7 +10,7 @@ class MentorTheme
         $this->api = $api;
 
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-        add_action('wp_head', array($this, 'inject_theme_css'));
+        add_action('enqueue_block_editor_assets', array($this, 'enqueue_styles'));
     }
 
     public function enqueue_styles()
@@ -21,21 +21,32 @@ class MentorTheme
             [],
             MENTOR_PLUGIN_VERSION
         );
+
+        $inline = $this->build_theme_css();
+        if (!empty($inline)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- All interpolated values are validated against strict allowlist regex in sanitize_css_color()/sanitize_css_font_name() and URLs via esc_url_raw(); wp_strip_all_tags() provides additional defense.
+            wp_add_inline_style('mentor_plugin_styles', wp_strip_all_tags($inline));
+        }
     }
 
-    public function inject_theme_css()
+    public function get_theme_css()
+    {
+        return $this->build_theme_css();
+    }
+
+    private function build_theme_css()
     {
         if (empty($this->api->get_api_url())) {
-            return;
+            return '';
         }
 
         if (!get_option('mentor_theme_enabled')) {
-            return;
+            return '';
         }
 
         $data = $this->api->fetch_data('/api/client_api/frontendtheme/');
         if (empty($data) || !is_array($data)) {
-            return;
+            return '';
         }
 
         $color_defaults = [
@@ -44,18 +55,20 @@ class MentorTheme
             'secondary-color-hover' => 'rgba(246,166,35,0.8)',
             'body-text-color' => '#1D4065',
         ];
-        $colors = array_merge($color_defaults, $data['css'] ?? []);
+        $colors = array_merge($color_defaults, is_array($data['css'] ?? null) ? $data['css'] : []);
 
         $root_vars = [
-            '--color-primary' => sanitize_text_field($colors['primary-color']),
-            '--color-secondary' => sanitize_text_field($colors['secondary-color']),
-            '--color-secondary-hover' => sanitize_text_field($colors['secondary-color-hover']),
-            '--color-body-text' => sanitize_text_field($colors['body-text-color']),
+            '--color-primary' => $this->sanitize_css_color($colors['primary-color']),
+            '--color-secondary' => $this->sanitize_css_color($colors['secondary-color']),
+            '--color-secondary-hover' => $this->sanitize_css_color($colors['secondary-color-hover']),
+            '--color-body-text' => $this->sanitize_css_color($colors['body-text-color']),
         ];
 
         $style = ":root, .tw {\n";
         foreach ($root_vars as $key => $val) {
-            $style .= "  {$key}: {$val};\n";
+            if ($val !== '') {
+                $style .= "  {$key}: {$val};\n";
+            }
         }
         $style .= "}\n";
 
@@ -65,10 +78,20 @@ class MentorTheme
 
         if (!empty($data['fonts']['fonts']) && is_array($data['fonts']['fonts'])) {
             foreach ($data['fonts']['fonts'] as $font) {
-                $font_styles .= $this->build_font_face($font) . "\n";
+                $font_face = $this->build_font_face($font);
+                if ($font_face !== '') {
+                    $font_styles .= $font_face . "\n";
+                }
 
-                $selectors = implode(' ', $font['selectors'] ?? []);
-                $family = sanitize_text_field($font['fontFamily'] ?? '');
+                $selectors = implode(' ', array_filter(
+                    $font['selectors'] ?? [],
+                    'is_scalar'
+                ));
+                $family = $this->sanitize_css_font_name($font['fontFamily'] ?? '');
+
+                if ($family === '') {
+                    continue;
+                }
 
                 if (stripos($selectors, 'body') !== false && empty($body_font)) {
                     $body_font = $family;
@@ -78,40 +101,80 @@ class MentorTheme
             }
         }
 
-        if ($body_font) {
-            $style .= ".tw, .tw p, .tw span, .tw li, .tw a, .tw button, .tw input, .tw textarea { font-family: '{$body_font}', sans-serif; }\n";
+        if ($body_font !== '') {
+            $style .= ".tw, .tw p, .tw span, .tw li, .tw a, .tw button, .tw input, .tw textarea { font-family: \"{$body_font}\", sans-serif; }\n";
         }
 
-        if ($heading_font) {
-            $style .= ".tw h1, .tw h2, .tw h3, .tw h4, .tw h5, .tw h6 { font-family: '{$heading_font}', sans-serif; }\n";
+        if ($heading_font !== '') {
+            $style .= ".tw h1, .tw h2, .tw h3, .tw h4, .tw h5, .tw h6 { font-family: \"{$heading_font}\", sans-serif; }\n";
         }
 
         $style .= $font_styles;
 
-        echo "<style id='mentor-theme-css'>\n{$style}\n</style>"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS built from sanitize_text_field() values
+        return $style;
     }
 
     private function build_font_face($font)
     {
-        $family = sanitize_text_field($font['fontFamily'] ?? '');
+        $family = $this->sanitize_css_font_name($font['fontFamily'] ?? '');
         $srcs = [];
 
         foreach (['fontUrlWOFF2', 'fontUrlWOFF', 'fontUrlTTF'] as $formatKey) {
             if (!empty($font[$formatKey])) {
-                $url = esc_url_raw($font[$formatKey]);
-                $format = str_replace('fontUrl', '', strtolower($formatKey));
-                $srcs[] = "url('{$url}') format('{$format}')";
+                $raw_url = $font[$formatKey];
+                if (!is_string($raw_url)) {
+                    continue;
+                }
+                $url = esc_url_raw($raw_url);
+                if ($url === '') {
+                    continue;
+                }
+                $format = strtolower(str_replace('fontUrl', '', $formatKey));
+                $srcs[] = "url(\"{$url}\") format(\"{$format}\")";
             }
         }
 
-        if (empty($family) || empty($srcs)) {
+        if ($family === '' || empty($srcs)) {
             return '';
         }
 
-        return "@font-face {
-            font-family: '{$family}';
-            src: " . implode(', ', $srcs) . ";
-            font-display: swap;
-        }";
+        return "@font-face { font-family: \"{$family}\"; src: " . implode(', ', $srcs) . "; font-display: swap; }";
+    }
+
+    private function sanitize_css_color($value)
+    {
+        $value = is_string($value) ? trim($value) : '';
+        if ($value === '') {
+            return '';
+        }
+        if (preg_match('/^#[0-9a-fA-F]{3,8}$/', $value)) {
+            return $value;
+        }
+        if (preg_match('/^rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*(?:\d+|\d*\.\d+)\s*)?\)$/', $value)) {
+            return $value;
+        }
+        $num = '\d+(?:\.\d+)?';
+        $pct = $num . '%';
+        $alpha = '(?:' . $num . '|' . $pct . ')';
+        if (preg_match('/^hsla?\(\s*' . $num . '\s*,\s*' . $pct . '\s*,\s*' . $pct . '\s*(?:,\s*' . $alpha . '\s*)?\)$/', $value)
+            || preg_match('/^hsla?\(\s*' . $num . '\s+' . $pct . '\s+' . $pct . '\s*(?:\/\s*' . $alpha . '\s*)?\)$/', $value)) {
+            return $value;
+        }
+        if (preg_match('/^[a-zA-Z]+$/', $value)) {
+            return $value;
+        }
+        return '';
+    }
+
+    private function sanitize_css_font_name($value)
+    {
+        $value = is_string($value) ? trim($value) : '';
+        if ($value === '') {
+            return '';
+        }
+        if (preg_match('/^[a-zA-Z0-9 \-_]+$/', $value)) {
+            return $value;
+        }
+        return '';
     }
 }

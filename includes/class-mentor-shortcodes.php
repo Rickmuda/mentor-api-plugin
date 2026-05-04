@@ -239,12 +239,12 @@ class MentorShortcodes
                 return '<h1 style="font-size: 2rem; font-weight: 800; color: var(--color-body-text, #1f2937); line-height: 1.2;">' . esc_html($course['title'] ?? '') . '</h1>';
 
             case 'mentor_cursus_prijs':
+                $incl_vat = !empty($course['show_prices_including_vat']);
                 $price = $course['price'] ?? '';
                 $total = $course['total_price'] ?? '';
                 $discount = $course['discount'] ?? [];
                 $disc_perc = $discount['discount_perc'] ?? 0;
                 $disc_name = $discount['discount_name'] ?? '';
-                $incl_vat = $course['show_prices_including_vat'] ?? false;
 
                 $price_num = (float) str_replace(['.', ','], ['', '.'], $price);
                 $total_num = (float) str_replace(['.', ','], ['', '.'], $total);
@@ -253,9 +253,7 @@ class MentorShortcodes
                 $html = '<div style="background: #f9fafb; border-radius: 12px; padding: 16px 20px; display: inline-block;">';
                 $html .= '<div style="font-size: 12px; color: #9ca3af; margin-bottom: 4px;">Cursusprijs</div>';
                 $html .= '<div style="font-size: 1.35rem; font-weight: 700; color: var(--color-body-text, #1f2937); line-height: 1.2;">&euro;' . esc_html($price) . '</div>';
-                if ($incl_vat) {
-                    $html .= '<div style="font-size: 13px; color: #9ca3af; margin-top: 2px;">incl. btw</div>';
-                }
+                $html .= '<div style="font-size: 13px; color: #9ca3af; margin-top: 2px;">' . ($incl_vat ? 'incl. btw' : 'excl. btw') . '</div>';
                 if (!empty($total) && $total !== $price) {
                     $html .= '<div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e5e7eb;">';
                     $html .= '<div style="font-size: 12px; color: #9ca3af;">Totaal incl. materiaal: <strong style="color: var(--color-body-text, #1f2937);">&euro;' . esc_html($total) . '</strong></div>';

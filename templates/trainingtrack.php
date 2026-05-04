@@ -163,7 +163,7 @@ if (!wp_style_is('mentor-google-fonts-calibri', 'enqueued')) {
 <!--                                     -4.477 0-8.268-2.943-9.542-7z"/>-->
 <!--                        </svg>-->
 
-                        Bekijk <?php echo count($track['traininglessons']); ?> trainingsdagen
+                        Bekijk <?php echo esc_html(count($track['traininglessons'])); ?> trainingsdagen
                     </button>
 
                     <!-- Aanmelden -->

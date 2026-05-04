@@ -19,7 +19,11 @@ class MentorApi
     {
         if (empty($this->api_url)) {
             if (current_user_can('manage_options')) {
-                return '<p style="color:#dc2626;"><strong>Mentor Plugin:</strong> Stel eerst de API URL in via <a href="' . admin_url('admin.php?page=mentor_plugin') . '">Mentor Plugin → Instellingen</a>.</p>';
+                return '<p style="color:#dc2626;"><strong>Mentor Plugin:</strong> '
+                    . esc_html__('Stel eerst de API URL in via ', 'mentor-integration')
+                    . '<a href="' . esc_url(admin_url('admin.php?page=mentor_plugin')) . '">'
+                    . esc_html__('Mentor Plugin → Instellingen', 'mentor-integration')
+                    . '</a>.</p>';
             }
             return '';
         }

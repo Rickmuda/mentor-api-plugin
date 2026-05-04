@@ -20,9 +20,11 @@ defined('ABSPATH') or die('No script kiddies please!');
                         </p>
                     </div>
                     <div class="mt-4">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><strong>&euro;<?php echo esc_html($course['price']); ?></strong></span>
-                        <?php if (!empty($course['link_to_mentor'])) : ?>
-                            <a href="<?php echo esc_url($course['link_to_mentor']); ?>" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Meer info</a>
+                        <?php if ($price = mentor_get_course_price($course)) : ?>
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><strong>&euro;<?php echo esc_html($price['display']); ?></strong> <span class="text-xs text-gray-500"><?php echo esc_html($price['vat_label']); ?></span></span>
+                        <?php endif; ?>
+                        <?php $course_link = mentor_resolve_course_link($course); if (!empty($course_link)) : ?>
+                            <a href="<?php echo esc_url($course_link); ?>" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><?php echo esc_html(mentor_get_cta_label()); ?></a>
                         <?php endif; ?>
                     </div>
                 </div>

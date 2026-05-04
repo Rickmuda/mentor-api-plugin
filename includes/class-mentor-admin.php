@@ -50,6 +50,93 @@ class MentorAdmin
             'mentor_shortcode_builder',
             array($this, 'shortcode_builder_page')
         );
+
+        add_submenu_page(
+            'mentor_plugin',
+            'Cursuslinks',
+            'Cursuslinks',
+            'manage_options',
+            'mentor_course_links',
+            array($this, 'course_links_page')
+        );
+    }
+
+    public function course_links_page()
+    {
+        if (isset($_POST['mentor_save_course_links'])
+            && check_admin_referer('mentor_save_course_links', 'mentor_course_links_nonce')
+            && current_user_can('manage_options')
+        ) {
+            $raw = isset($_POST['mentor_course_link']) && is_array($_POST['mentor_course_link'])
+                ? wp_unslash($_POST['mentor_course_link'])
+                : [];
+            $clean = [];
+            foreach ($raw as $course_id => $url) {
+                $course_id = (int) $course_id;
+                $url = esc_url_raw(trim($url));
+                if ($course_id && !empty($url)) {
+                    $clean[$course_id] = $url;
+                }
+            }
+            update_option('mentor_course_link_overrides', $clean);
+            echo '<div class="notice notice-success is-dismissible"><p>Cursuslinks opgeslagen.</p></div>';
+        }
+
+        $overrides = get_option('mentor_course_link_overrides', []);
+        if (!is_array($overrides)) {
+            $overrides = [];
+        }
+
+        $courses = $this->api->fetch_data('/api/modules_api/catalog/');
+        $course_items = $courses['results'] ?? [];
+        ?>
+        <div class="wrap">
+            <h1>Cursuslinks</h1>
+            <p>Vul per cursus een eigen URL in om de standaard "Meer info"-link te overschrijven. Laat leeg om de standaardlink (of detailpagina) te gebruiken.</p>
+
+            <?php if (empty($course_items)) : ?>
+                <p><em>Geen cursussen gevonden. Controleer eerst de API-instellingen.</em></p>
+            <?php else : ?>
+                <form method="post">
+                    <input type="hidden" name="mentor_save_course_links" value="1">
+                    <?php wp_nonce_field('mentor_save_course_links', 'mentor_course_links_nonce'); ?>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">ID</th>
+                                <th style="width: 35%;">Cursus</th>
+                                <th>URL override</th>
+                                <th style="width: 20%;">Standaardlink</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($course_items as $course):
+                                $cid = (int) ($course['id'] ?? 0);
+                                if (!$cid) continue;
+                                $current = $overrides[$cid] ?? '';
+                                $default = $course['link_to_mentor'] ?? '';
+                            ?>
+                                <tr>
+                                    <td><?php echo esc_html($cid); ?></td>
+                                    <td><strong><?php echo esc_html($course['title'] ?? ''); ?></strong></td>
+                                    <td>
+                                        <input type="url"
+                                            name="mentor_course_link[<?php echo esc_attr($cid); ?>]"
+                                            value="<?php echo esc_attr($current); ?>"
+                                            placeholder="https://..."
+                                            class="large-text code"
+                                            style="width: 100%;" />
+                                    </td>
+                                    <td><code style="font-size: 11px; word-break: break-all;"><?php echo esc_html($default); ?></code></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php submit_button('Cursuslinks opslaan'); ?>
+                </form>
+            <?php endif; ?>
+        </div>
+        <?php
     }
 
     // =========================================================================
@@ -117,6 +204,31 @@ class MentorAdmin
         );
 
         add_settings_field(
+            'mentor_cta_label',
+            'Knoptekst (standaard: Meer info)',
+            array($this, 'field_callback'),
+            'wp_mentor_courses_categories',
+            'wp_mentor_courses_categories_section',
+            array(
+                'label_for' => 'mentor_cta_label',
+                'type' => 'text',
+                'option_name' => 'mentor_cta_label'
+            )
+        );
+
+        add_settings_field(
+            'mentor_hide_prices',
+            'Prijzen verbergen op overzichten',
+            array($this, 'checkbox_callback'),
+            'wp_mentor_courses_categories',
+            'wp_mentor_courses_categories_section',
+            array(
+                'label_for' => 'mentor_hide_prices',
+                'option_name' => 'mentor_hide_prices'
+            )
+        );
+
+        add_settings_field(
             'mentor_theme_enabled',
             'Klantthema overnemen (kleuren en lettertype)',
             array($this, 'checkbox_callback'),
@@ -143,6 +255,12 @@ class MentorAdmin
 
         register_setting('wp_mentor_courses_categories', 'mentor_courses_api_url', [
             'sanitize_callback' => 'esc_url_raw',
+        ]);
+        register_setting('wp_mentor_courses_categories', 'mentor_cta_label', [
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        register_setting('wp_mentor_courses_categories', 'mentor_hide_prices', [
+            'sanitize_callback' => 'absint',
         ]);
         register_setting('wp_mentor_courses_categories', 'mentor_theme_enabled', ['sanitize_callback' => 'absint']);
         register_setting('wp_mentor_courses_categories', 'mentor_cache_duration', [
@@ -215,8 +333,12 @@ class MentorAdmin
 
         ob_start();
         wp_enqueue_style('mentor_plugin_styles', MENTOR_PLUGIN_URL . 'assets/css/mentor-plugin.css', [], MENTOR_PLUGIN_VERSION);
+        $theme_css = $theme->get_theme_css();
+        if (!empty($theme_css)) {
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSS built from allowlist-validated values in MentorTheme::build_theme_css(); wp_strip_all_tags() provides additional defense.
+            wp_add_inline_style('mentor_plugin_styles', wp_strip_all_tags($theme_css));
+        }
         wp_print_styles('mentor_plugin_styles');
-        $theme->inject_theme_css();
         $html = do_shortcode($shortcode);
         $styles = ob_get_clean();
 
