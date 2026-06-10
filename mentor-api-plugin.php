@@ -3,7 +3,7 @@
  * Plugin Name: Mentor Integration
  * Plugin URI:  https://wordpress.org/plugins/mentor-integration/
  * Description: Toon cursussen, categorieën en trainingsmomenten van Mentor op je WordPress website.
- * Version:     2.0.1
+ * Version:     2.1.0
  * Author:      Mark Vergunst
  * Author URI:  https://poweredbymentor.nl
  * License:     GPLv2 or later
@@ -15,7 +15,7 @@
 
 defined('ABSPATH') or die('No script kiddies please!');
 
-define('MENTOR_PLUGIN_VERSION', '2.0.1');
+define('MENTOR_PLUGIN_VERSION', '2.1.0');
 define('MENTOR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MENTOR_PLUGIN_URL', plugin_dir_url(__FILE__));
 

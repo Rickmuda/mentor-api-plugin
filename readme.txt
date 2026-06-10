@@ -4,7 +4,7 @@ Tags: courses, training, mentor, catalog, reviews
 Requires at least: 5.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,12 @@ Yes. Enable "Inherit client theme" in the settings to automatically apply the co
 
 == Changelog ==
 
+= 2.1.0 =
+* Added Gutenberg blocks for all shortcodes (server-side rendered)
+* Added granular course-field shortcodes and the field block
+* Added admin options and improved output escaping
+* Added per-course skin system (templates/skins/<slug>/) for dedicated course sites
+
 = 2.0.1 =
 * Prepared for WordPress.org plugin directory
 * Added GPL license and readme.txt
@@ -93,6 +99,9 @@ Yes. Enable "Inherit client theme" in the settings to automatically apply the co
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Adds Gutenberg blocks, granular shortcodes and a per-course skin system. Existing shortcodes keep working.
 
 = 2.0.1 =
 Major update with new shortcodes, Shortcode Builder and theme support. Check your existing shortcodes after updating.
