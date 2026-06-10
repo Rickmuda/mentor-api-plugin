@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# wp-env persoonlijke override (lokale dev-instellingen)
+.wp-env-override.json
+
 # OS / editor
 .DS_Store
 Thumbs.db

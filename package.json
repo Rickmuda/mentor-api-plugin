@@ -6,9 +6,16 @@
   "private": true,
   "scripts": {
     "build": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --minify",
-    "watch": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --watch"
+    "watch": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --watch",
+    "wp:start": "wp-env start",
+    "wp:stop": "wp-env stop",
+    "wp:clean": "wp-env clean all",
+    "wp:destroy": "wp-env destroy"
   },
   "dependencies": {
     "tailwindcss": "^3.4.4"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^11.8.0"
   }
 }

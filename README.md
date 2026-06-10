@@ -175,3 +175,34 @@ De bron is `assets/css/styles.css`, de gecompileerde output is `assets/css/mento
 npm run watch   # her-bouwt automatisch tijdens het ontwikkelen
 npm run build   # eenmalige, geminificeerde productie-build
 ```
+
+### Lokaal testen met wp-env (Docker)
+
+De plugin draait alleen binnen WordPress. Voor een reproduceerbare testomgeving is
+[`@wordpress/env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/)
+meegeleverd: dit start via Docker een verse WordPress met deze plugin al gemount en geactiveerd.
+
+Vereiste: **Docker Desktop** draaiend.
+
+```bash
+npm install        # installeert ook wp-env
+npm run build      # genereer de CSS
+npm run wp:start   # start WordPress op http://localhost:8888
+```
+
+- **Site:** http://localhost:8888
+- **Admin:** http://localhost:8888/wp-admin (gebruiker `admin`, wachtwoord `password`)
+
+De plugin is al actief. Vul daarna onder **Mentor Plugin > Instellingen** een geldige Mentor
+**API-URL** in - zonder API-URL tonen de shortcodes/blocks geen cursusdata. Test daarna bijv.
+een skin met `[mentor_cursus_detail id=12 style=leiderschap]` op een pagina.
+
+Wijzigingen aan PHP-bestanden zijn direct zichtbaar (de map wordt gemount); na een CSS-wijziging
+draai je `npm run build` (of laat `npm run watch` lopen).
+
+| Commando | Doel |
+|---|---|
+| `npm run wp:start` | Start (of herstart) de omgeving |
+| `npm run wp:stop` | Stop de containers (data blijft behouden) |
+| `npm run wp:clean` | Reset de database naar een schone WordPress-install |
+| `npm run wp:destroy` | Verwijder de omgeving volledig |
