@@ -1,4 +1,13 @@
 {
+  "name": "mentor-plugin",
+  "version": "2.0.1",
+  "description": "WordPress plugin die integreert met het Mentor platform.",
+  "license": "GPL-2.0-or-later",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --minify",
+    "watch": "tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --watch"
+  },
   "dependencies": {
     "tailwindcss": "^3.4.4"
   }

@@ -114,7 +114,12 @@ $initial_visible = 6;
     cursor: pointer;
     transition: background 0.15s;
 }
-#<?php echo esc_attr($instance_id); ?> .sd-accordion-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .sd-accordion-btn:hover {
+        background: #e5e7eb;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .sd-accordion-btn:active {
     background: #e5e7eb;
 }
 #<?php echo esc_attr($instance_id); ?> .sd-accordion-icon {
@@ -136,8 +141,14 @@ $initial_visible = 6;
     background-color: var(--color-primary, #417AB3);
     transition: opacity 0.2s;
 }
-#<?php echo esc_attr($instance_id); ?> .sd-btn-inschrijven:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .sd-btn-inschrijven:hover {
+        opacity: 0.9;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .sd-btn-inschrijven:active {
+    opacity: 0.85;
+    transform: scale(0.98);
 }
 #<?php echo esc_attr($instance_id); ?> .sd-btn-show-all {
     display: inline-flex;
@@ -153,8 +164,14 @@ $initial_visible = 6;
     cursor: pointer;
     transition: opacity 0.2s;
 }
-#<?php echo esc_attr($instance_id); ?> .sd-btn-show-all:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .sd-btn-show-all:hover {
+        opacity: 0.9;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .sd-btn-show-all:active {
+    opacity: 0.85;
+    transform: scale(0.98);
 }
 #<?php echo esc_attr($instance_id); ?> .sd-select {
     border: 1px solid var(--color-primary, #417AB3);
@@ -229,6 +246,32 @@ $initial_visible = 6;
     flex-grow: 1;
     height: 1px;
     background: #d1d5db;
+}
+
+/* Mobile: full-width filter controls, smaller heading, tighter padding */
+@media (max-width: 640px) {
+    #<?php echo esc_attr($instance_id); ?> > div {
+        padding: 24px 0;
+    }
+    #<?php echo esc_attr($instance_id); ?> .sd-header h2 {
+        font-size: 1.5rem;
+    }
+    #<?php echo esc_attr($instance_id); ?> .sd-header > div {
+        width: 100%;
+        gap: 12px;
+    }
+    #<?php echo esc_attr($instance_id); ?> .sd-select {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    #<?php echo esc_attr($instance_id); ?> .sd-toggle {
+        width: 100%;
+        justify-content: space-between;
+    }
+    #<?php echo esc_attr($instance_id); ?> .sd-card {
+        padding: 20px;
+    }
 }
 </style>
 

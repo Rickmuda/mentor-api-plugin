@@ -65,12 +65,24 @@ $teachers = $course['teachers'] ?? [];
 #<?php echo esc_attr($instance_id); ?> .mcd-description p {
     margin: 0 0 12px 0;
 }
+#<?php echo esc_attr($instance_id); ?> .mcd-cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
 #<?php echo esc_attr($instance_id); ?> .mcd-price-block {
     background: #f9fafb;
+    border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px 20px;
     margin-bottom: 24px;
     display: inline-block;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-cta-row .mcd-price-block {
+    margin-bottom: 0;
 }
 #<?php echo esc_attr($instance_id); ?> .mcd-price-label {
     font-size: 12px;
@@ -110,6 +122,7 @@ $teachers = $course['teachers'] ?? [];
 #<?php echo esc_attr($instance_id); ?> .mcd-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 14px 32px;
     border-radius: 9999px;
     font-size: 15px;
@@ -117,15 +130,74 @@ $teachers = $course['teachers'] ?? [];
     color: #fff;
     text-decoration: none;
     background-color: var(--color-primary, #417AB3);
-    transition: opacity 0.2s;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: opacity 0.2s, box-shadow 0.2s, transform 0.2s;
 }
-#<?php echo esc_attr($instance_id); ?> .mcd-btn:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .mcd-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+    }
+    #<?php echo esc_attr($instance_id); ?> .mcd-btn:hover svg {
+        transform: translateX(4px);
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-btn:active {
+    opacity: 0.85;
+    transform: scale(0.98);
 }
 #<?php echo esc_attr($instance_id); ?> .mcd-btn svg {
     width: 18px;
     height: 18px;
     margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-btn-website {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--color-primary, #417AB3);
+    background: #fff;
+    border: 1.5px solid var(--color-primary, #417AB3);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-btn-website svg {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .mcd-btn-website:hover {
+        background: var(--color-primary, #417AB3);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+    }
+    #<?php echo esc_attr($instance_id); ?> .mcd-btn-website:hover svg {
+        transform: translateX(4px);
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-btn-website:active {
+    transform: scale(0.98);
+}
+#<?php echo esc_attr($instance_id); ?> .mcd-btn-website--disabled {
+    color: #9ca3af;
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 #<?php echo esc_attr($instance_id); ?> .mcd-section-title {
     font-size: 1.5rem;
@@ -180,6 +252,20 @@ $teachers = $course['teachers'] ?? [];
     margin-top: 6px;
     line-height: 1.5;
 }
+
+/* Mobile: smaller headings, tighter padding */
+@media (max-width: 640px) {
+    #<?php echo esc_attr($instance_id); ?> > div {
+        padding: 24px 0;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mcd-title {
+        font-size: 1.5rem;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mcd-section-title {
+        font-size: 1.25rem;
+        margin: 32px 0 16px 0;
+    }
+}
 </style>
 
 <div class="tailwind-scope tw container mx-auto px-4" id="<?php echo esc_attr($instance_id); ?>">
@@ -198,6 +284,7 @@ $teachers = $course['teachers'] ?? [];
 
                 <h1 class="mcd-title"><?php echo esc_html($title); ?></h1>
 
+                <div class="mcd-cta-row">
                 <!-- Prijs -->
                 <?php
                 $price_num = (float) str_replace(['.', ','], ['', '.'], $price);
@@ -219,12 +306,32 @@ $teachers = $course['teachers'] ?? [];
                 </div>
                 <?php endif; ?>
 
-                <a href="<?php echo esc_url($link); ?>" class="mcd-btn">
-                    Inschrijven
-                    <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
+                <div class="mcd-cta-actions">
+                    <a href="<?php echo esc_url($link); ?>" class="mcd-btn">
+                        Inschrijven
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                        </svg>
+                    </a>
+
+                    <?php $course_website = mentor_get_course_website($course); ?>
+                    <?php if (!empty($course_website)): ?>
+                        <a href="<?php echo esc_url($course_website); ?>" class="mcd-btn-website" target="_blank" rel="noopener">
+                            Bekijk cursuswebsite
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </a>
+                    <?php else: ?>
+                        <span class="mcd-btn-website mcd-btn-website--disabled" aria-disabled="true" title="Nog geen cursus-website ingesteld">
+                            Bekijk cursuswebsite
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </span>
+                    <?php endif; ?>
+                </div>
+                </div>
             </div>
         </div>
 

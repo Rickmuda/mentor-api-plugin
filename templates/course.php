@@ -45,6 +45,7 @@ sort($subjects);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 #<?php echo esc_attr($instance_id); ?> .mc-card-img {
     width: 100%;
@@ -106,13 +107,20 @@ sort($subjects);
     transition: opacity 0.2s;
     white-space: nowrap;
 }
-#<?php echo esc_attr($instance_id); ?> .mc-btn:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .mc-btn:hover {
+        opacity: 0.9;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .mc-btn:active {
+    opacity: 0.85;
+    transform: scale(0.98);
 }
 #<?php echo esc_attr($instance_id); ?> .mc-btn svg {
     width: 16px;
     height: 16px;
-    margin-left: 8px;
+    margin-left: 8px;3;;
+    
 }
 #<?php echo esc_attr($instance_id); ?> .mc-select {
     border: 1px solid var(--color-primary, #417AB3);
@@ -162,6 +170,35 @@ sort($subjects);
 #<?php echo esc_attr($instance_id); ?> .mc-review-badge strong {
     color: var(--color-body-text, #1f2937);
     font-weight: 700;
+}
+
+/* Mobile: full-width controls, smaller heading, tighter padding */
+@media (max-width: 640px) {
+    #<?php echo esc_attr($instance_id); ?> > div {
+        padding: 24px 0;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mc-header h2 {
+        font-size: 1.5rem;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mc-header > div {
+        width: 100%;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mc-search,
+    #<?php echo esc_attr($instance_id); ?> .mc-select {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+}
+
+/* Touch devices: make the whole card a tap target (stretched link) */
+@media (hover: none) {
+    #<?php echo esc_attr($instance_id); ?> .mc-card .mc-btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
 }
 </style>
 

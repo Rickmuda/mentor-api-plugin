@@ -54,6 +54,13 @@ $instance_id = 'mentor-docenten-' . wp_unique_id();
     background: #f3f4f6;
     color: #6b7280;
 }
+
+/* Narrowest phones: force a single column so the 280px floor can't overflow */
+@media (max-width: 380px) {
+    #<?php echo esc_attr($instance_id); ?> .mdt-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
 
 <div id="<?php echo esc_attr($instance_id); ?>">

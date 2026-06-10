@@ -15,6 +15,10 @@ delete_option('mentor_theme_enabled');
 delete_option('mentor_cache_duration');
 delete_option('mentor_cache_last_refresh');
 delete_option('mentor_detail_page_id');
+delete_option('mentor_active_style');
+delete_option('mentor_cta_label');
+delete_option('mentor_hide_prices');
+delete_option('mentor_course_link_overrides');
 
 // Verwijder alle transients
 global $wpdb;

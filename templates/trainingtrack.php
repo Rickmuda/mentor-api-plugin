@@ -65,8 +65,41 @@ if (!wp_style_is('mentor-google-fonts-calibri', 'enqueued')) {
         vertical-align: -2px;
     }
 
-    .tailwind-scope .is-text-link:hover::after {
-        transform: translate(0.25em, 0);
+    @media (hover: hover) and (pointer: fine) {
+        .tailwind-scope .is-text-link:hover::after {
+            transform: translate(0.25em, 0);
+        }
+    }
+
+    /* Modal: keep gutters from the screen edges on small viewports */
+    .tailwind-scope .modal-backdrop {
+        padding: 1rem;
+    }
+
+    /* Mobile: trim the generous card padding (cards are p-8 / 32px) */
+    @media (max-width: 640px) {
+        .tailwind-scope .grid > div.bg-white {
+            padding: 1.25rem;
+        }
+    }
+
+    /* Touch devices: don't leave Tailwind hover styles stuck after a tap */
+    @media (hover: none) {
+        .tailwind-scope .open-modal-btn:hover {
+            color: #C83461;
+        }
+        .tailwind-scope .hover\:opacity-90:hover {
+            opacity: 1;
+        }
+        .tailwind-scope .hover\:text-gray-700:hover {
+            color: #6b7280;
+        }
+    }
+
+    /* Tap feedback */
+    .tailwind-scope .open-modal-btn:active,
+    .tailwind-scope a.is-text-link:active {
+        opacity: 0.85;
     }
 
 </style>

@@ -1,0 +1,14 @@
+# Normaliseer line-endings: LF in de repo en in de working tree (WP-standaard).
+# Voorkomt de "LF will be replaced by CRLF" waarschuwingen op Windows.
+* text=auto eol=lf
+
+# Binaire assets - nooit als tekst behandelen of diffen.
+*.png  binary
+*.webp binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+
+# Lockfile - geen diff-ruis bij reviews.
+package-lock.json -diff

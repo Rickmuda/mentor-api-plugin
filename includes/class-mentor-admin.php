@@ -59,6 +59,15 @@ class MentorAdmin
             'mentor_course_links',
             array($this, 'course_links_page')
         );
+
+        add_submenu_page(
+            'mentor_plugin',
+            'Cursuswebsites',
+            'Cursuswebsites',
+            'manage_options',
+            'mentor_course_websites',
+            array($this, 'course_websites_page')
+        );
     }
 
     public function course_links_page()
@@ -133,6 +142,81 @@ class MentorAdmin
                         </tbody>
                     </table>
                     <?php submit_button('Cursuslinks opslaan'); ?>
+                </form>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
+    public function course_websites_page()
+    {
+        if (isset($_POST['mentor_save_course_websites'])
+            && check_admin_referer('mentor_save_course_websites', 'mentor_course_websites_nonce')
+            && current_user_can('manage_options')
+        ) {
+            $raw = isset($_POST['mentor_course_website']) && is_array($_POST['mentor_course_website'])
+                ? wp_unslash($_POST['mentor_course_website'])
+                : [];
+            $clean = [];
+            foreach ($raw as $course_id => $url) {
+                $course_id = (int) $course_id;
+                $url = esc_url_raw(trim($url));
+                if ($course_id && !empty($url)) {
+                    $clean[$course_id] = $url;
+                }
+            }
+            update_option('mentor_course_website_overrides', $clean);
+            echo '<div class="notice notice-success is-dismissible"><p>Cursuswebsites opgeslagen.</p></div>';
+        }
+
+        $overrides = get_option('mentor_course_website_overrides', []);
+        if (!is_array($overrides)) {
+            $overrides = [];
+        }
+
+        $courses = $this->api->fetch_data('/api/modules_api/catalog/');
+        $course_items = $courses['results'] ?? [];
+        ?>
+        <div class="wrap">
+            <h1>Cursuswebsites</h1>
+            <p>Vul per cursus de URL van de eigen cursus-website in. Deze wordt getoond via de "Bekijk cursuswebsite"-knop op de cursusdetailpagina. Laat leeg om geen website te tonen.</p>
+
+            <?php if (empty($course_items)) : ?>
+                <p><em>Geen cursussen gevonden. Controleer eerst de API-instellingen.</em></p>
+            <?php else : ?>
+                <form method="post">
+                    <input type="hidden" name="mentor_save_course_websites" value="1">
+                    <?php wp_nonce_field('mentor_save_course_websites', 'mentor_course_websites_nonce'); ?>
+                    <table class="wp-list-table widefat fixed striped">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">ID</th>
+                                <th style="width: 35%;">Cursus</th>
+                                <th>Website URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($course_items as $course):
+                                $cid = (int) ($course['id'] ?? 0);
+                                if (!$cid) continue;
+                                $current = $overrides[$cid] ?? '';
+                            ?>
+                                <tr>
+                                    <td><?php echo esc_html($cid); ?></td>
+                                    <td><strong><?php echo esc_html($course['title'] ?? ''); ?></strong></td>
+                                    <td>
+                                        <input type="url"
+                                            name="mentor_course_website[<?php echo esc_attr($cid); ?>]"
+                                            value="<?php echo esc_attr($current); ?>"
+                                            placeholder="https://..."
+                                            class="large-text code"
+                                            style="width: 100%;" />
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php submit_button('Cursuswebsites opslaan'); ?>
                 </form>
             <?php endif; ?>
         </div>
@@ -253,6 +337,18 @@ class MentorAdmin
             )
         );
 
+        add_settings_field(
+            'mentor_active_style',
+            'Stijl',
+            array($this, 'style_select_callback'),
+            'wp_mentor_courses_categories',
+            'wp_mentor_courses_categories_section',
+            array(
+                'label_for' => 'mentor_active_style',
+                'option_name' => 'mentor_active_style'
+            )
+        );
+
         register_setting('wp_mentor_courses_categories', 'mentor_courses_api_url', [
             'sanitize_callback' => 'esc_url_raw',
         ]);
@@ -267,6 +363,11 @@ class MentorAdmin
             'type' => 'integer',
             'default' => 15,
             'sanitize_callback' => 'absint',
+        ]);
+        register_setting('wp_mentor_courses_categories', 'mentor_active_style', [
+            'type' => 'string',
+            'default' => '',
+            'sanitize_callback' => 'mentor_sanitize_style',
         ]);
     }
 
@@ -285,6 +386,21 @@ class MentorAdmin
         $option_name = $arguments['option_name'];
         $value = get_option($option_name);
         echo '<input name="' . esc_attr($option_name) . '" id="' . esc_attr($option_name) . '" type="' . esc_attr($arguments['type']) . '" value="' . esc_attr($value) . '" />';
+    }
+
+    public function style_select_callback($arguments)
+    {
+        $option_name = $arguments['option_name'];
+        $current = (string) get_option($option_name, '');
+        $styles = function_exists('mentor_available_styles') ? mentor_available_styles() : [];
+
+        echo '<select name="' . esc_attr($option_name) . '" id="' . esc_attr($option_name) . '">';
+        echo '<option value=""' . selected($current, '', false) . '>' . esc_html__('Standaard', 'mentor-integration') . '</option>';
+        foreach ($styles as $style) {
+            echo '<option value="' . esc_attr($style) . '"' . selected($current, $style, false) . '>' . esc_html(ucfirst($style)) . '</option>';
+        }
+        echo '</select>';
+        echo '<p class="description">' . esc_html__('Kies een aparte styling voor deze site. "Standaard" gebruikt de gewone templates. Per shortcode kun je dit overschrijven met style="…".', 'mentor-integration') . '</p>';
     }
 
     // =========================================================================

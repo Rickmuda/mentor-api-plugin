@@ -180,8 +180,25 @@ if ($total < 1) {
     cursor: pointer;
     transition: opacity 0.2s;
 }
-#<?php echo esc_attr($instance_id); ?> .mr-btn-show-all:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .mr-btn-show-all:hover {
+        opacity: 0.9;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .mr-btn-show-all:active {
+    opacity: 0.85;
+    transform: scale(0.98);
+}
+
+/* Mobile: full-width score block, tighter padding */
+@media (max-width: 640px) {
+    #<?php echo esc_attr($instance_id); ?> > div {
+        padding: 24px 0;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mr-score-block {
+        width: 100%;
+        min-width: 0;
+    }
 }
 </style>
 

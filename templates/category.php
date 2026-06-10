@@ -29,6 +29,7 @@ $cat_items = $categories['results'] ?? [];
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 #<?php echo esc_attr($instance_id); ?> .mcat-card-img {
     width: 100%;
@@ -84,8 +85,14 @@ $cat_items = $categories['results'] ?? [];
     transition: opacity 0.2s;
     margin-top: auto;
 }
-#<?php echo esc_attr($instance_id); ?> .mcat-btn:hover {
-    opacity: 0.9;
+@media (hover: hover) and (pointer: fine) {
+    #<?php echo esc_attr($instance_id); ?> .mcat-btn:hover {
+        opacity: 0.9;
+    }
+}
+#<?php echo esc_attr($instance_id); ?> .mcat-btn:active {
+    opacity: 0.85;
+    transform: scale(0.98);
 }
 #<?php echo esc_attr($instance_id); ?> .mcat-btn svg {
     width: 16px;
@@ -114,6 +121,31 @@ $cat_items = $categories['results'] ?? [];
     padding: 40px 20px;
     color: #9ca3af;
     font-size: 15px;
+}
+
+/* Mobile: full-width search, smaller heading, tighter padding */
+@media (max-width: 640px) {
+    #<?php echo esc_attr($instance_id); ?> > div {
+        padding: 24px 0;
+    }
+    #<?php echo esc_attr($instance_id); ?> h2 {
+        font-size: 1.5rem;
+    }
+    #<?php echo esc_attr($instance_id); ?> .mcat-search {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+}
+
+/* Touch devices: make the whole card a tap target (stretched link) */
+@media (hover: none) {
+    #<?php echo esc_attr($instance_id); ?> .mcat-card .mcat-btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
 }
 </style>
 

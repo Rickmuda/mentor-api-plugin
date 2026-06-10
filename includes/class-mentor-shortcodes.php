@@ -81,6 +81,7 @@ class MentorShortcodes
 
         $atts = shortcode_atts([
             'id' => '',
+            'style' => '',
         ], $atts, 'mentor_startdata');
 
         $endpoint = '/api/client_api/availabletrainingtracks/';
@@ -90,7 +91,7 @@ class MentorShortcodes
 
         $tracks = $this->api->fetch_data($endpoint);
 
-        return mentor_display_startdata_template($tracks, $this->api->get_api_url());
+        return mentor_display_startdata_template($tracks, $this->api->get_api_url(), $atts['style']);
     }
 
     public function display_reviews($atts = [])
@@ -100,6 +101,7 @@ class MentorShortcodes
 
         $atts = shortcode_atts([
             'id' => '',
+            'style' => '',
         ], $atts, 'mentor_reviews');
 
         $module_id = absint($atts['id']);
@@ -111,7 +113,7 @@ class MentorShortcodes
             return '';
         }
 
-        return mentor_display_reviews_template($reviews, $aggregate, $module_id);
+        return mentor_display_reviews_template($reviews, $aggregate, $module_id, $atts['style']);
     }
 
     public function display_cursus_detail($atts = [])
@@ -121,7 +123,9 @@ class MentorShortcodes
 
         $atts = shortcode_atts([
             'id' => '',
+            'style' => '',
         ], $atts, 'mentor_cursus_detail');
+        $style = $atts['style'];
 
         $module_id = $atts['id'];
         if (empty($module_id)) {
@@ -156,17 +160,17 @@ class MentorShortcodes
         $course['teachers'] = $teachers;
 
         $api_url = $this->api->get_api_url();
-        $output = mentor_display_cursus_detail_template($course, $tracks, $api_url);
+        $output = mentor_display_cursus_detail_template($course, $tracks, $api_url, $style);
 
         if (!empty($track_items)) {
-            $output .= mentor_display_startdata_template($tracks, $api_url);
+            $output .= mentor_display_startdata_template($tracks, $api_url, $style);
         }
 
         $review_data = $this->api->fetch_review_data('/reviews/', $module_id);
         $reviews = $review_data['results'] ?? $review_data;
         $aggregate = $this->api->fetch_review_data('/reviews/aggregate/', $module_id);
         if (!empty($reviews) && !empty($aggregate)) {
-            $output .= mentor_display_reviews_template($reviews, $aggregate, $module_id);
+            $output .= mentor_display_reviews_template($reviews, $aggregate, $module_id, $style);
         }
 
         return $output;
@@ -232,7 +236,30 @@ class MentorShortcodes
             return '';
         }
 
+        $style = is_array($atts) && isset($atts['style']) ? $atts['style'] : '';
         $api_url = $this->api->get_api_url();
+
+        // Skin-aware rendering: een actieve skin kan de docenten en de losse velden
+        // (titel, prijs, omschrijving, afbeelding, thema, inschrijven) overschrijven.
+        $skin = preg_replace('/[^a-z0-9_-]/', '', strtolower($style !== '' ? $style : (string) get_option('mentor_active_style', '')));
+
+        if ($tag === 'mentor_cursus_docenten') {
+            $teachers = $course['teachers'] ?? [];
+            if (empty($teachers)) return '';
+            ob_start();
+            include mentor_resolve_template('cursus-docenten', $style);
+            return ob_get_clean();
+        }
+
+        if ($skin !== '' && $tag !== 'mentor_cursus_reviews') {
+            $skin_field = MENTOR_PLUGIN_DIR . 'templates/skins/' . $skin . '/cursus-field.php';
+            if (file_exists($skin_field)) {
+                $mentor_field = str_replace('mentor_cursus_', '', $tag);
+                ob_start();
+                include $skin_field;
+                return ob_get_clean();
+            }
+        }
 
         switch ($tag) {
             case 'mentor_cursus_titel':
@@ -296,7 +323,7 @@ class MentorShortcodes
                 $rev = $rev_data['results'] ?? $rev_data;
                 $agg = $this->api->fetch_review_data('/reviews/aggregate/', $mid);
                 if (empty($rev) || empty($agg)) return '';
-                return mentor_display_reviews_template($rev, $agg, $mid);
+                return mentor_display_reviews_template($rev, $agg, $mid, $style);
 
             default:
                 return '';

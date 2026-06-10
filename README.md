@@ -73,6 +73,23 @@ De ID-velden zijn optioneel — leeg laten leest `?cursus_id=X` uit de URL (hand
 
 Ga naar **Mentor Plugin > Shortcode Builder** om shortcodes visueel samen te stellen met live preview.
 
+## Stijlen (skins)
+
+Een cursus kan een eigen, aparte styling krijgen los van de standaard-templates — handig wanneer een cursus een eigen website heeft (bijv. een dedicated site per cursus). Een skin is een set alternatieve templates onder `templates/skins/<slug>/` die dezelfde data tonen als de standaard-templates, maar met eigen layout en CSS.
+
+Meegeleverd: **`leiderschap`** — een "Fris & professioneel" stijl (zachte achtergrond `#F7F8FA`, fris blauw accent `#2F6BFF`, Plus Jakarta Sans-koppen + Inter-body, ruime afgeronde kaarten en pill-knoppen) voor de cursusdetailpagina, startdata-agenda en reviews.
+
+Een skin activeren kan op twee manieren:
+
+| Manier | Wanneer |
+|---|---|
+| **Globaal** via **Mentor Plugin → Instellingen → Stijl** | Op een site die volledig in één stijl moet (zet de dropdown op de gewenste skin; alle shortcodes/blocks volgen automatisch). |
+| **Per shortcode** met `style="<slug>"` | Voor losse pagina's of testen, bijv. `[mentor_cursus_detail id=12 style=leiderschap]`. Overschrijft de globale instelling. |
+
+Ondersteund door de attributen: `mentor_cursus_detail`, `mentor_startdata`, `mentor_reviews` en `mentor_cursus_reviews`. Ontbreekt een skin-bestand, dan valt de plugin automatisch terug op het standaard-template.
+
+**Een nieuwe cursus-skin toevoegen:** maak een map `templates/skins/<slug>/` aan met `cursus-detail.php`, `startdata.php` en/of `reviews.php`. De map verschijnt vanzelf als optie in de Stijl-dropdown. Skin-slugs mogen alleen kleine letters, cijfers, `-` en `_` bevatten.
+
 ## Architectuur
 
 De plugin is opgebouwd uit vijf klassen:
@@ -108,7 +125,12 @@ mentor-plugin/
 │   ├── cursus-docenten.php        # Docentenkaartjes
 │   ├── startdata.php              # Startdata-agenda
 │   ├── trainingtrack.php          # Trainingsmomenten met modal
-│   └── reviews.php                # Reviews en beoordelingen
+│   ├── reviews.php                # Reviews en beoordelingen
+│   └── skins/                     # Alternatieve styling per cursus
+│       └── leiderschap/           # Skin "leiderschap" (Fris & professioneel)
+│           ├── cursus-detail.php
+│           ├── startdata.php
+│           └── reviews.php
 ├── assets/
 │   ├── css/
 │   │   ├── mentor-plugin.css      # Gecompileerde Tailwind CSS
@@ -121,9 +143,35 @@ mentor-plugin/
 
 ## Ontwikkeling
 
-Tailwind CSS wordt gebruikt voor de trainingtrack-template. Overige templates gebruiken scoped CSS.
+### Eerste keer opzetten (dev-omgeving)
+
+Benodigdheden:
+
+- **Node.js** 18+ (incl. npm) - alleen nodig om de Tailwind-CSS te bouwen.
+- Een lokale **WordPress-installatie** (bijv. Local, XAMPP of Docker) om de plugin in te draaien.
+
+Stappen:
+
+1. Clone de repository:
+   ```bash
+   git clone <gitlab-repo-url> mentor-api-plugin
+   cd mentor-api-plugin
+   ```
+2. Plaats (of symlink) de map in je WordPress-install onder `wp-content/plugins/mentor-api-plugin`
+   en activeer de plugin via **Plugins** in wp-admin.
+3. Installeer de build-dependencies:
+   ```bash
+   npm install
+   ```
+4. Vul de API-instellingen in onder **Mentor Plugin > Instellingen** (zie [Configuratie](#configuratie)).
+
+### CSS bouwen
+
+Tailwind CSS wordt gebruikt voor de trainingtrack-template; overige templates gebruiken scoped CSS.
+De bron is `assets/css/styles.css`, de gecompileerde output is `assets/css/mentor-plugin.css`
+(deze wordt gecommit zodat de plugin werkt zonder build-stap op de server).
 
 ```bash
-npm install
-npx tailwindcss -i ./assets/css/styles.css -o ./assets/css/mentor-plugin.css --watch
+npm run watch   # her-bouwt automatisch tijdens het ontwikkelen
+npm run build   # eenmalige, geminificeerde productie-build
 ```
